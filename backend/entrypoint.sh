@@ -6,53 +6,62 @@ if [ ! -f /app/.env ]; then
     cp /app/.env.example /app/.env
 fi
 
-# Escape backslashes, the "|" delimiter, and "&" (which sed treats as the
-# matched text in replacements) so values containing special characters
-# (e.g. MySQL connection strings with "/", "@", ":", "&", "#") don't break
-# the sed substitution below.
-escape_sed_replacement() {
-    printf '%s' "$1" | sed -e 's/[\\|&]/\\&/g'
+# Set (or replace) a KEY=value line in /app/.env without ever passing the
+# value through sed/regex substitution. MySQL connection strings and
+# generated APP_KEYs routinely contain characters such as @, :, /, \, &, |
+# and # that are meaningful to sed (delimiters, backreferences, escapes) and
+# reliably broke the previous sed-based implementation (e.g. "sed: -e
+# expression #1, char 46: number option to `s' command may not be zero").
+#
+# awk's -v assigns "value" as a plain string that is only ever concatenated
+# into the output line, never interpreted as part of a regex or replacement
+# expression, so no escaping of the value is required. Only "key" is used to
+# build the match pattern, and all keys below are simple, fixed identifiers.
+set_env_var() {
+    local key="$1"
+    local value="$2"
+    local file="/app/.env"
+    local tmp="${file}.tmp.$RANDOM.$RANDOM"
+
+    awk -v key="$key" -v value="$value" '
+        BEGIN { found = 0; plen = length(key) + 1 }
+        substr($0, 1, plen) == key "=" { print key "=" value; found = 1; next }
+        { print }
+        END { if (!found) print key "=" value }
+    ' "$file" > "$tmp" && mv "$tmp" "$file"
 }
 
 # Override .env with environment variables (for Railway deployment)
 if [ ! -z "$APP_KEY" ]; then
-    escaped_value=$(escape_sed_replacement "$APP_KEY")
-    sed -i "s|APP_KEY=.*|APP_KEY=$escaped_value|" /app/.env
+    set_env_var "APP_KEY" "$APP_KEY"
 fi
 
 if [ ! -z "$DB_HOST" ]; then
-    escaped_value=$(escape_sed_replacement "$DB_HOST")
-    sed -i "s|DB_HOST=.*|DB_HOST=$escaped_value|" /app/.env
+    set_env_var "DB_HOST" "$DB_HOST"
 fi
 
 if [ ! -z "$DB_PORT" ]; then
-    escaped_value=$(escape_sed_replacement "$DB_PORT")
-    sed -i "s|DB_PORT=.*|DB_PORT=$escaped_value|" /app/.env
+    set_env_var "DB_PORT" "$DB_PORT"
 fi
 
 if [ ! -z "$DB_DATABASE" ]; then
-    escaped_value=$(escape_sed_replacement "$DB_DATABASE")
-    sed -i "s|DB_DATABASE=.*|DB_DATABASE=$escaped_value|" /app/.env
+    set_env_var "DB_DATABASE" "$DB_DATABASE"
 fi
 
 if [ ! -z "$DB_USERNAME" ]; then
-    escaped_value=$(escape_sed_replacement "$DB_USERNAME")
-    sed -i "s|DB_USERNAME=.*|DB_USERNAME=$escaped_value|" /app/.env
+    set_env_var "DB_USERNAME" "$DB_USERNAME"
 fi
 
 if [ ! -z "$DB_PASSWORD" ]; then
-    escaped_value=$(escape_sed_replacement "$DB_PASSWORD")
-    sed -i "s|DB_PASSWORD=.*|DB_PASSWORD=$escaped_value|" /app/.env
+    set_env_var "DB_PASSWORD" "$DB_PASSWORD"
 fi
 
 if [ ! -z "$APP_URL" ]; then
-    escaped_value=$(escape_sed_replacement "$APP_URL")
-    sed -i "s|APP_URL=.*|APP_URL=$escaped_value|" /app/.env
+    set_env_var "APP_URL" "$APP_URL"
 fi
 
 if [ ! -z "$FRONTEND_URL" ]; then
-    escaped_value=$(escape_sed_replacement "$FRONTEND_URL")
-    sed -i "s|FRONTEND_URL=.*|FRONTEND_URL=$escaped_value|" /app/.env
+    set_env_var "FRONTEND_URL" "$FRONTEND_URL"
 fi
 
 # Generate APP_KEY if not set
