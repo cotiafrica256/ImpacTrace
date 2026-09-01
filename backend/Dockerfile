@@ -1,6 +1,5 @@
 FROM dunglas/frankenphp:php8.2
 
-# Install PHP extensions required by Laravel and the application
 RUN install-php-extensions \
     pcntl \
     pdo_mysql \
@@ -10,26 +9,26 @@ RUN install-php-extensions \
     exif \
     intl
 
-# Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
-# Copy Composer files first for Docker layer caching
 COPY composer.json composer.lock ./
 
-# Install PHP dependencies
 RUN composer install \
     --no-dev \
     --optimize-autoloader \
     --no-interaction \
-    --no-progress \
-    --no-scripts
+    --no-progress
 
-# Copy the Laravel application
 COPY . .
 
-# Create required Laravel directories
+# Create .env file from .env.example if it doesn't exist
+RUN cp .env.example .env
+
+# Generate APP_KEY if not present
+RUN php artisan key:generate
+
 RUN mkdir -p \
     bootstrap/cache \
     storage/framework/cache \
@@ -37,14 +36,17 @@ RUN mkdir -p \
     storage/framework/views \
     storage/logs
 
-# Set permissions
 RUN chmod -R 775 bootstrap/cache storage
 
-# Generate storage symlink
 RUN php artisan storage:link || true
 
-# Railway uses the PORT environment variable
+# Copy Caddyfile
+COPY Caddyfile /app/Caddyfile
+
+# Copy and make entrypoint script executable
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
 EXPOSE 80
 
-# Start Laravel through FrankenPHP / Octane
-CMD ["php", "artisan", "octane:frankenphp", "--host=0.0.0.0", "--port=80"]
+ENTRYPOINT ["/app/entrypoint.sh"]

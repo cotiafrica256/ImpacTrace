@@ -1,0 +1,39 @@
+{
+    frankenphp
+}
+
+:80 {
+    encode gzip
+
+    # Serve public files
+    root * /app/public
+    
+    # FrankenPHP handler
+    php_server
+
+    # Security headers
+    header X-Content-Type-Options nosniff
+    header X-Frame-Options DENY
+
+    # Handle Laravel routes
+    try_files {path} {path}/ /index.php?{query}
+    
+    # Cache static assets
+    @static {
+        path /storage/*
+        path *.js
+        path *.css
+        path *.woff
+        path *.woff2
+        path *.ttf
+        path *.eot
+        path *.svg
+        path *.png
+        path *.jpg
+        path *.jpeg
+        path *.gif
+        path *.ico
+    }
+    
+    header @static Cache-Control "public, max-age=31536000, immutable"
+}
