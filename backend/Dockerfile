@@ -15,7 +15,8 @@ RUN install-php-extensions \
     pdo_mysql \
     session \
     tokenizer \
-    xml
+    xml \
+    zip
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
