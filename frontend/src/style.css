@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --impac-navy: #0d1d2d;
+  --impac-navy-soft: #16324c;
+  --impac-teal: #0f766e;
+  --impac-emerald: #0f7b4f;
+  --impac-slate: #f3f5f7;
+  --impac-border: #dfe6ee;
+  --impac-text: #1d2a37;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-slate-100 text-slate-800 antialiased;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  background: linear-gradient(180deg, #071d2d 0%, #0d1d2d 100%);
+}
+
+#app {
+  min-height: 100vh;
+}
+
+input, textarea, select, button {
+  font: inherit;
+}
+
+input, textarea, select {
+  @apply border border-slate-300 rounded-xl px-3 py-2.5 text-slate-700 bg-white shadow-sm transition focus:outline-none focus:ring-2 focus:ring-sky-200 focus:border-sky-500;
+}
+
+button {
+  @apply transition-all duration-200;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.08);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.32);
+  border-radius: 9999px;
+}

@@ -1,0 +1,1240 @@
+{
+  "form_meta": {
+    "title": "MECPA Uganda \u2014 Grassroots Household Climate Vulnerability Assessment",
+    "project_theme": "Empowering Rural Women for Climate Resilience, Food Security and Sustainable Livelihoods",
+    "source": "REACT project household assessment instrument"
+  },
+  "sections": [
+    {
+      "key": "A",
+      "title": "Household Identification",
+      "fields": [
+        {
+          "id": "a1_date",
+          "label": "Date of assessment",
+          "type": "date",
+          "required": true
+        },
+        {
+          "id": "a1_interviewer",
+          "label": "Name of interviewer",
+          "type": "text",
+          "auto": "current_user_name"
+        },
+        {
+          "id": "a1_village",
+          "label": "Community/Village",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "a1_parish",
+          "label": "Parish",
+          "type": "text"
+        },
+        {
+          "id": "a1_subcounty",
+          "label": "Sub-county",
+          "type": "text"
+        },
+        {
+          "id": "a1_district",
+          "label": "District",
+          "type": "text"
+        },
+        {
+          "id": "a1_gps",
+          "label": "GPS location",
+          "type": "gps"
+        },
+        {
+          "id": "a1_hh_code",
+          "label": "Household/Respondent Code",
+          "type": "text",
+          "auto": "generated"
+        },
+        {
+          "id": "a2_name",
+          "label": "Name of respondent",
+          "type": "text",
+          "required": true,
+          "maps_to": "respondent.full_name"
+        },
+        {
+          "id": "a2_sex",
+          "label": "Sex",
+          "type": "select",
+          "options": [
+            "Female",
+            "Male",
+            "Other"
+          ],
+          "maps_to": "respondent.sex"
+        },
+        {
+          "id": "a2_age",
+          "label": "Age (years)",
+          "type": "number",
+          "maps_to": "respondent.age"
+        },
+        {
+          "id": "a2_relationship",
+          "label": "Relationship to household head",
+          "type": "select",
+          "options": [
+            "Household head",
+            "Spouse",
+            "Son/Daughter",
+            "Relative",
+            "Other"
+          ]
+        },
+        {
+          "id": "a2_is_woman",
+          "label": "Is the respondent a woman?",
+          "type": "select",
+          "options": [
+            "Yes",
+            "No"
+          ]
+        },
+        {
+          "id": "a2_is_youth",
+          "label": "Is the respondent a young person (18-35 years)?",
+          "type": "select",
+          "options": [
+            "Yes",
+            "No"
+          ]
+        },
+        {
+          "id": "a2_disability",
+          "label": "Does the respondent have a disability?",
+          "type": "select",
+          "options": [
+            "Yes",
+            "No",
+            "Prefer not to say"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "B",
+      "title": "Household Composition",
+      "fields": [
+        {
+          "id": "b1_composition",
+          "label": "Number of Household Members by age/sex",
+          "type": "table",
+          "rows": [
+            "Children below 5 years",
+            "Children 5-17 years",
+            "Youth 18-35 years",
+            "Adults 36-59 years",
+            "Older persons 60+",
+            "Total"
+          ],
+          "columns": [
+            "Male",
+            "Female",
+            "Total"
+          ]
+        },
+        {
+          "id": "b2_headship",
+          "label": "Household Headship",
+          "type": "select",
+          "options": [
+            "Male-headed household",
+            "Female-headed household",
+            "Jointly headed household",
+            "Other"
+          ]
+        },
+        {
+          "id": "b3_vulnerable_members",
+          "label": "Vulnerable Household Members",
+          "type": "multi_select",
+          "options": [
+            "Pregnant/lactating woman",
+            "Person with disability",
+            "Older person",
+            "Child-headed household",
+            "Female-headed household",
+            "Chronically vulnerable household member",
+            "None",
+            "Other"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "C",
+      "title": "Livelihoods and Economic Activities",
+      "fields": [
+        {
+          "id": "c1_livelihoods",
+          "label": "Main Household Livelihood Sources",
+          "type": "multi_select",
+          "options": [
+            "Crop farming",
+            "Livestock",
+            "Poultry",
+            "Fishing",
+            "Beekeeping",
+            "Small business/trading",
+            "Casual labour",
+            "Formal employment",
+            "Charcoal/firewood",
+            "Handicrafts",
+            "Food processing/value addition",
+            "Remittances",
+            "Other"
+          ]
+        },
+        {
+          "id": "c2_income_source",
+          "label": "Main Source of Household Income",
+          "type": "text"
+        },
+        {
+          "id": "c3_income_control",
+          "label": "Who Mainly Controls Household Income?",
+          "type": "select",
+          "options": [
+            "Woman/women",
+            "Man/men",
+            "Jointly",
+            "Other"
+          ]
+        },
+        {
+          "id": "c4_expenditure_decisions",
+          "label": "Who Mainly Makes Decisions About Household Expenditure?",
+          "type": "select",
+          "options": [
+            "Women",
+            "Men",
+            "Jointly",
+            "Other"
+          ]
+        },
+        {
+          "id": "c5_climate_income_effect",
+          "label": "Has Climate Change Affected Your Household Income?",
+          "type": "select",
+          "options": [
+            "Yes, significantly",
+            "Yes, moderately",
+            "Yes, slightly",
+            "No",
+            "Not sure"
+          ]
+        },
+        {
+          "id": "c5_explain",
+          "label": "If yes, explain",
+          "type": "textarea"
+        }
+      ]
+    },
+    {
+      "key": "D",
+      "title": "Agricultural and Food Security Vulnerability",
+      "fields": [
+        {
+          "id": "d1_depends_agri",
+          "label": "Does the Household Depend on Agriculture?",
+          "type": "select",
+          "options": [
+            "Yes",
+            "No"
+          ]
+        },
+        {
+          "id": "d2_crops",
+          "label": "Main Crops Grown",
+          "type": "multi_select",
+          "options": [
+            "Maize",
+            "Cassava",
+            "Beans",
+            "Groundnuts",
+            "Rice",
+            "Millet",
+            "Sorghum",
+            "Sweet potatoes",
+            "Vegetables",
+            "Fruits",
+            "Other"
+          ]
+        },
+        {
+          "id": "d3_land_total",
+          "label": "Total land accessed/used (acres)",
+          "type": "number"
+        },
+        {
+          "id": "d3_land_owned",
+          "label": "Land owned (acres)",
+          "type": "number"
+        },
+        {
+          "id": "d3_land_rented",
+          "label": "Land rented/borrowed (acres)",
+          "type": "number"
+        },
+        {
+          "id": "d4_land_decision",
+          "label": "Who Has Decision-Making Power Over Agricultural Land?",
+          "type": "select",
+          "options": [
+            "Woman",
+            "Man",
+            "Jointly",
+            "Other"
+          ]
+        },
+        {
+          "id": "d5_secure_rights",
+          "label": "Does the Woman/Respondent Have Secure Rights to Agricultural Land?",
+          "type": "select",
+          "options": [
+            "Yes",
+            "No",
+            "Partially",
+            "Don't know"
+          ]
+        },
+        {
+          "id": "d6_food_shortage_freq",
+          "label": "Food Shortages in the Last 12 Months?",
+          "type": "select",
+          "options": [
+            "Never",
+            "Once",
+            "2-3 times",
+            "4-6 times",
+            "More than 6 times"
+          ]
+        },
+        {
+          "id": "d7_shortage_response",
+          "label": "During Food Shortages, What Does the Household Do?",
+          "type": "multi_select",
+          "options": [
+            "Reduce meals",
+            "Reduce quantity of food",
+            "Borrow food",
+            "Buy food on credit",
+            "Sell livestock",
+            "Sell productive assets",
+            "Seek casual labour",
+            "Borrow money",
+            "Depend on relatives",
+            "Women eat less so children can eat",
+            "Other"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "E",
+      "title": "Climate Hazards",
+      "fields": [
+        {
+          "id": "e1_hazards",
+          "label": "Which Climate-Related Hazards Affect Your Household?",
+          "type": "multi_select",
+          "options": [
+            "Drought/prolonged dry periods",
+            "Erratic rainfall",
+            "Heavy rainfall",
+            "Flooding",
+            "Strong winds/storms",
+            "Extreme heat",
+            "Crop pests and diseases",
+            "Livestock diseases",
+            "Water scarcity",
+            "Soil erosion",
+            "Land degradation",
+            "Bushfires",
+            "Other"
+          ]
+        },
+        {
+          "id": "e2_greatest_impact",
+          "label": "Which Hazard Has the Greatest Impact?",
+          "type": "text"
+        },
+        {
+          "id": "e3_frequency",
+          "label": "How Frequently Does This Hazard Occur?",
+          "type": "select",
+          "options": [
+            "Rarely",
+            "Occasionally",
+            "Every year",
+            "Several times per year",
+            "Increasingly frequently"
+          ]
+        },
+        {
+          "id": "e4_change",
+          "label": "Has the Frequency or Severity Changed in Recent Years?",
+          "type": "select",
+          "options": [
+            "Increased significantly",
+            "Increased slightly",
+            "Remained the same",
+            "Decreased",
+            "Don't know"
+          ]
+        },
+        {
+          "id": "e5_recent_event",
+          "label": "When Was the Most Recent Major Climate Event? (month/year)",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "key": "F",
+      "title": "Climate Impacts on the Household",
+      "fields": [
+        {
+          "id": "f1_impacts",
+          "label": "What Has Been the Impact of Climate Change on Your Household?",
+          "type": "multi_select",
+          "options": [
+            "Crop failure",
+            "Reduced crop yields",
+            "Livestock losses",
+            "Loss of income",
+            "Food shortages",
+            "Water shortages",
+            "Increased household expenses",
+            "Damage to houses",
+            "Loss of land/productive resources",
+            "Increased workload for women",
+            "Children missing school",
+            "Increased health risks",
+            "Household displacement",
+            "Conflict over resources",
+            "Other"
+          ]
+        },
+        {
+          "id": "f2_most_affected",
+          "label": "Which Household Members Are Most Affected?",
+          "type": "multi_select",
+          "options": [
+            "Women",
+            "Men",
+            "Girls",
+            "Boys",
+            "Older persons",
+            "Persons with disabilities",
+            "Everyone equally"
+          ]
+        },
+        {
+          "id": "f3_why",
+          "label": "Why Are These Members More Vulnerable?",
+          "type": "textarea"
+        }
+      ]
+    },
+    {
+      "key": "G",
+      "title": "Water Security",
+      "fields": [
+        {
+          "id": "g1_source",
+          "label": "Main Household Source of Water",
+          "type": "select",
+          "options": [
+            "Borehole",
+            "Protected spring",
+            "Unprotected spring",
+            "River",
+            "Lake",
+            "Wetland",
+            "Rainwater harvesting",
+            "Well",
+            "Other"
+          ]
+        },
+        {
+          "id": "g2_time",
+          "label": "One-way travel time to collect water (minutes)",
+          "type": "number"
+        },
+        {
+          "id": "g3_collector",
+          "label": "Who Mainly Collects Water?",
+          "type": "select",
+          "options": [
+            "Women",
+            "Girls",
+            "Men",
+            "Boys",
+            "Shared"
+          ]
+        },
+        {
+          "id": "g4_availability_change",
+          "label": "Has Water Availability Changed Because of Climate Change?",
+          "type": "select",
+          "options": [
+            "Significantly reduced",
+            "Slightly reduced",
+            "No change",
+            "Increased",
+            "Don't know"
+          ]
+        },
+        {
+          "id": "g5_dry_period_response",
+          "label": "During Dry Periods, What Does the Household Do?",
+          "type": "textarea"
+        }
+      ]
+    },
+    {
+      "key": "H",
+      "title": "Environmental Vulnerability",
+      "fields": [
+        {
+          "id": "h1_problems",
+          "label": "Which Environmental Problems Affect Your Community?",
+          "type": "multi_select",
+          "options": [
+            "Wetland degradation",
+            "Deforestation",
+            "Bush burning",
+            "Soil erosion",
+            "Loss of biodiversity",
+            "Overgrazing",
+            "Poor waste management",
+            "Water pollution",
+            "Land degradation",
+            "Unsustainable charcoal production",
+            "Wetland encroachment",
+            "Other"
+          ]
+        },
+        {
+          "id": "h2_dependence",
+          "label": "Is Your Household Dependent on Natural Resources?",
+          "type": "select",
+          "options": [
+            "Highly dependent",
+            "Moderately dependent",
+            "Slightly dependent",
+            "Not dependent"
+          ]
+        },
+        {
+          "id": "h3_important_resources",
+          "label": "Which Natural Resources Are Most Important?",
+          "type": "multi_select",
+          "options": [
+            "Land",
+            "Water",
+            "Wetlands",
+            "Forests/trees",
+            "Grazing areas",
+            "Fish",
+            "Wild foods",
+            "Medicinal plants",
+            "Other"
+          ]
+        },
+        {
+          "id": "h4_access_change",
+          "label": "Has Access to These Resources Changed?",
+          "type": "select",
+          "options": [
+            "Improved",
+            "Reduced",
+            "Significantly reduced",
+            "No change",
+            "Don't know"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "I",
+      "title": "Women's Climate Vulnerability and Empowerment",
+      "fields": [
+        {
+          "id": "i1_workload",
+          "label": "Does Climate Change Increase Women's Workload?",
+          "type": "select",
+          "options": [
+            "Significantly",
+            "Moderately",
+            "Slightly",
+            "No"
+          ]
+        },
+        {
+          "id": "i2_extra_work",
+          "label": "What Additional Work Do Women Perform During Climate Shocks?",
+          "type": "multi_select",
+          "options": [
+            "Longer water collection",
+            "Searching for food",
+            "Caring for children",
+            "Caring for sick household members",
+            "Searching for fuel",
+            "Additional farm work",
+            "Seeking alternative income",
+            "Other"
+          ]
+        },
+        {
+          "id": "i3_participation",
+          "label": "Do Women Participate in Decisions About Natural Resources?",
+          "type": "select",
+          "options": [
+            "Always",
+            "Often",
+            "Sometimes",
+            "Rarely",
+            "Never"
+          ]
+        },
+        {
+          "id": "i4_committee_rep",
+          "label": "Are Women Represented in Community Environmental Committees?",
+          "type": "select",
+          "options": [
+            "Yes, adequately",
+            "Yes, but participation is limited",
+            "No",
+            "Don't know"
+          ]
+        },
+        {
+          "id": "i5_speak_up",
+          "label": "Do Women Feel Able to Speak in Community Meetings?",
+          "type": "select",
+          "options": [
+            "Always",
+            "Often",
+            "Sometimes",
+            "Rarely",
+            "Never"
+          ]
+        },
+        {
+          "id": "i6_barriers",
+          "label": "What Prevents Women From Participating?",
+          "type": "multi_select",
+          "options": [
+            "Social norms",
+            "Lack of confidence",
+            "Lack of information",
+            "Household responsibilities",
+            "Lack of time",
+            "Male dominance",
+            "Financial limitations",
+            "Fear of conflict/reprisal",
+            "Disability/accessibility barriers",
+            "Other"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "J",
+      "title": "Climate Adaptation Practices",
+      "fields": [
+        {
+          "id": "j1_practices",
+          "label": "What Adaptation Practices Does Your Household Use?",
+          "type": "multi_select",
+          "options": [
+            "Drought-resistant crops",
+            "Crop diversification",
+            "Early planting",
+            "Water harvesting",
+            "Mulching",
+            "Agroforestry",
+            "Tree planting",
+            "Farmer Managed Natural Regeneration",
+            "Soil conservation",
+            "Irrigation",
+            "Kitchen/vegetable garden",
+            "Livestock diversification",
+            "Savings groups",
+            "Alternative businesses",
+            "Improved cookstoves",
+            "Renewable energy",
+            "Other"
+          ]
+        },
+        {
+          "id": "j2_most_effective",
+          "label": "Which Adaptation Practice Has Been Most Effective?",
+          "type": "text"
+        },
+        {
+          "id": "j3_introduced_by",
+          "label": "Who Introduced the Practice?",
+          "type": "select",
+          "options": [
+            "Household members",
+            "Women's group",
+            "Farmer group",
+            "Government extension officer",
+            "NGO/CSO",
+            "Traditional knowledge",
+            "Media/radio",
+            "Other"
+          ]
+        },
+        {
+          "id": "j4_barriers",
+          "label": "What Prevents Adoption of More Climate-Smart Practices?",
+          "type": "multi_select",
+          "options": [
+            "Lack of money",
+            "Lack of knowledge",
+            "Lack of land",
+            "Lack of inputs",
+            "Lack of labour",
+            "Lack of technology",
+            "Lack of extension services",
+            "Lack of markets",
+            "Social/cultural barriers",
+            "Other"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "K",
+      "title": "Livelihood Coping Strategies",
+      "fields": [
+        {
+          "id": "k1_coping",
+          "label": "What Does the Household Do When Climate Shocks Occur?",
+          "type": "multi_select",
+          "options": [
+            "Use savings",
+            "Borrow money",
+            "Sell livestock",
+            "Sell crops",
+            "Sell productive assets",
+            "Reduce food consumption",
+            "Seek casual labour",
+            "Diversify businesses",
+            "Migrate temporarily",
+            "Receive support from relatives",
+            "Depend on humanitarian assistance",
+            "Other"
+          ]
+        },
+        {
+          "id": "k2_effect_on_resilience",
+          "label": "Have These Coping Strategies Affected Future Resilience?",
+          "type": "select",
+          "options": [
+            "Improved resilience",
+            "Reduced resilience",
+            "No major effect",
+            "Don't know"
+          ]
+        },
+        {
+          "id": "k2_explain",
+          "label": "Explain",
+          "type": "textarea"
+        }
+      ]
+    },
+    {
+      "key": "L",
+      "title": "Financial and Market Access",
+      "fields": [
+        {
+          "id": "l1_savings_group",
+          "label": "Does the Household Belong to a Savings Group?",
+          "type": "select",
+          "options": [
+            "Yes",
+            "No"
+          ]
+        },
+        {
+          "id": "l2_financial_access",
+          "label": "Does the Respondent Have Access to Financial Services?",
+          "type": "multi_select",
+          "options": [
+            "Bank",
+            "SACCO",
+            "VSLA",
+            "Mobile money",
+            "Microfinance",
+            "None",
+            "Other"
+          ]
+        },
+        {
+          "id": "l3_credit_access",
+          "label": "Has the Household Accessed Credit in the Last 12 Months?",
+          "type": "select",
+          "options": [
+            "Yes",
+            "No"
+          ]
+        },
+        {
+          "id": "l4_barriers",
+          "label": "Main Barriers to Finance",
+          "type": "multi_select",
+          "options": [
+            "No collateral",
+            "High interest rates",
+            "Lack of information",
+            "Distance",
+            "Low income",
+            "Lack of documentation",
+            "Fear of borrowing",
+            "Gender-related barriers",
+            "Other"
+          ]
+        },
+        {
+          "id": "l5_market_access",
+          "label": "Access to Markets for Agricultural Products?",
+          "type": "select",
+          "options": [
+            "Good access",
+            "Moderate access",
+            "Limited access",
+            "No access"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "M",
+      "title": "Climate Information and Early Warning",
+      "fields": [
+        {
+          "id": "m1_info_source",
+          "label": "Where Does the Household Receive Climate Information?",
+          "type": "multi_select",
+          "options": [
+            "Radio",
+            "Television",
+            "Mobile phone",
+            "Social media",
+            "Government extension officers",
+            "Community leaders",
+            "Farmer groups",
+            "Women's groups",
+            "Neighbours",
+            "Traditional knowledge",
+            "No climate information",
+            "Other"
+          ]
+        },
+        {
+          "id": "m2_usefulness",
+          "label": "Is the Information Received Useful?",
+          "type": "select",
+          "options": [
+            "Very useful",
+            "Useful",
+            "Slightly useful",
+            "Not useful"
+          ]
+        },
+        {
+          "id": "m3_early_warning",
+          "label": "Does the Household Receive Early Warning Information?",
+          "type": "select",
+          "options": [
+            "Always",
+            "Often",
+            "Sometimes",
+            "Rarely",
+            "Never"
+          ]
+        },
+        {
+          "id": "m4_useful_info_type",
+          "label": "What Type of Information Would Be Most Useful?",
+          "type": "multi_select",
+          "options": [
+            "Rainfall forecasts",
+            "Drought alerts",
+            "Flood warnings",
+            "Crop advice",
+            "Pest/disease alerts",
+            "Market information",
+            "Water availability",
+            "Disaster preparedness",
+            "Other"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "N",
+      "title": "Natural Resource Conflict and Peace",
+      "fields": [
+        {
+          "id": "n1_conflict",
+          "label": "Has Your Community Experienced Conflict Related to Natural Resources?",
+          "type": "select",
+          "options": [
+            "Yes",
+            "No",
+            "Don't know"
+          ]
+        },
+        {
+          "id": "n2_source",
+          "label": "If Yes, What Is the Main Source?",
+          "type": "select",
+          "options": [
+            "Land",
+            "Water",
+            "Wetlands",
+            "Grazing land",
+            "Forests/trees",
+            "Agricultural boundaries",
+            "Fishing resources",
+            "Other"
+          ]
+        },
+        {
+          "id": "n3_involved",
+          "label": "Who Is Usually Involved?",
+          "type": "multi_select",
+          "options": [
+            "Farmers",
+            "Pastoralists",
+            "Women",
+            "Youth",
+            "Landowners",
+            "Community leaders",
+            "Local government",
+            "Other"
+          ]
+        },
+        {
+          "id": "n4_women_involved",
+          "label": "Are Women Involved in Resolving These Conflicts?",
+          "type": "select",
+          "options": [
+            "Yes, actively",
+            "Sometimes",
+            "Rarely",
+            "Never"
+          ]
+        },
+        {
+          "id": "n5_mechanisms",
+          "label": "What Mechanisms Are Used to Resolve Conflicts?",
+          "type": "multi_select",
+          "options": [
+            "Family mediation",
+            "Community leaders",
+            "Traditional leaders",
+            "Local government",
+            "Police",
+            "Courts",
+            "Religious leaders",
+            "Women's groups",
+            "Other"
+          ]
+        },
+        {
+          "id": "n6_women_role",
+          "label": "What Role Could Women Play in Preventing Resource-Related Conflict?",
+          "type": "textarea"
+        }
+      ]
+    },
+    {
+      "key": "O",
+      "title": "Household Climate Vulnerability Rating",
+      "fields": [
+        {
+          "id": "o1_ratings",
+          "label": "Vulnerability Dimension Ratings (1=Very Low ... 5=Very High)",
+          "type": "rating_table",
+          "rows": [
+            "Exposure to drought",
+            "Exposure to floods/heavy rainfall",
+            "Water insecurity",
+            "Food insecurity",
+            "Agricultural vulnerability",
+            "Livelihood vulnerability",
+            "Environmental degradation",
+            "Women's workload",
+            "Women's access to resources",
+            "Women's decision-making power",
+            "Access to climate information",
+            "Access to finance",
+            "Access to markets",
+            "Household coping capacity",
+            "Natural-resource conflict exposure",
+            "Access to adaptation technologies"
+          ],
+          "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "auto_total_field": "o_total_score",
+          "max_score": 80
+        },
+        {
+          "id": "o_total_score",
+          "label": "Overall Household Vulnerability Score (auto-summed, /80)",
+          "type": "computed",
+          "maps_to": "vulnerability_score"
+        },
+        {
+          "id": "o_classification",
+          "label": "Vulnerability Classification",
+          "type": "select",
+          "options": [
+            "Very Low",
+            "Low",
+            "Moderate",
+            "High",
+            "Very High"
+          ],
+          "maps_to": "vulnerability_class"
+        }
+      ]
+    },
+    {
+      "key": "P",
+      "title": "Household Priority Needs",
+      "fields": [
+        {
+          "id": "p1_top3_needs",
+          "label": "Three Most Important Climate-Related Needs",
+          "type": "text_list",
+          "max_items": 3
+        },
+        {
+          "id": "p2_support",
+          "label": "What Support Would Most Improve Climate Resilience? (select up to 5)",
+          "type": "multi_select",
+          "options": [
+            "Climate-smart agricultural training",
+            "Agricultural inputs",
+            "Tree seedlings",
+            "FMNR training",
+            "Water harvesting",
+            "Irrigation",
+            "Kitchen/vegetable gardens",
+            "Livestock support",
+            "Access to finance",
+            "Savings groups",
+            "Business training",
+            "Market linkages",
+            "Clean energy/improved cookstoves",
+            "Climate information",
+            "Women's leadership training",
+            "Land-rights awareness",
+            "Environmental restoration",
+            "Conflict-resolution support",
+            "Other"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "Q",
+      "title": "Women's Priority Solutions",
+      "fields": [
+        {
+          "id": "q1",
+          "label": "What Should Be Done to Help Rural Women Become More Climate Resilient?",
+          "type": "textarea"
+        },
+        {
+          "id": "q2",
+          "label": "What Can Women Do Themselves?",
+          "type": "textarea"
+        },
+        {
+          "id": "q3",
+          "label": "What Support Is Needed From Government?",
+          "type": "textarea"
+        },
+        {
+          "id": "q4",
+          "label": "What Support Is Needed From NGOs/CSOs?",
+          "type": "textarea"
+        },
+        {
+          "id": "q5",
+          "label": "What Support Is Needed From the Private Sector/Financial Institutions?",
+          "type": "textarea"
+        }
+      ]
+    },
+    {
+      "key": "R",
+      "title": "Community-Led Solutions",
+      "fields": [
+        {
+          "id": "r1",
+          "label": "What Local Climate Solutions Already Exist in Your Community?",
+          "type": "textarea"
+        },
+        {
+          "id": "r2",
+          "label": "Which Traditional Practices Help Communities Cope With Climate Change?",
+          "type": "textarea"
+        },
+        {
+          "id": "r3",
+          "label": "Which Women-Led Solutions Should Be Supported or Scaled?",
+          "type": "textarea"
+        },
+        {
+          "id": "r4_lead",
+          "label": "Who Should Lead These Solutions?",
+          "type": "select",
+          "options": [
+            "Women",
+            "Youth",
+            "Community leaders",
+            "Local government",
+            "Farmer groups",
+            "Women's groups",
+            "CSOs",
+            "Joint community structures"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "S",
+      "title": "Respondent's Recommendations",
+      "fields": [
+        {
+          "id": "s1",
+          "label": "Most Important Message for MECPA and Other Organisations About Climate Change",
+          "type": "textarea"
+        },
+        {
+          "id": "s2",
+          "label": "What One Action Would Make the Biggest Difference to Your Household?",
+          "type": "textarea"
+        }
+      ]
+    },
+    {
+      "key": "T",
+      "title": "Consent and Closing",
+      "consent_section": true,
+      "fields": [
+        {
+          "id": "t_statement",
+          "label": "Informed Consent Statement",
+          "type": "consent_statement",
+          "text": "We are collecting this information to understand how climate change and environmental challenges affect households in this community. The information will be used to improve project planning and advocacy. Your participation is voluntary. You may decline to answer any question or stop the interview at any time. Your responses will be treated confidentially."
+        },
+        {
+          "id": "t_consent_given",
+          "label": "Does the respondent agree to participate?",
+          "type": "boolean_yes_no",
+          "required": true,
+          "maps_to": "consent.consent_given"
+        },
+        {
+          "id": "t_permission_learning",
+          "label": "Permission to use anonymised information for project learning and advocacy",
+          "type": "boolean_yes_no",
+          "maps_to": "consent.permission_for_learning_advocacy"
+        },
+        {
+          "id": "t_permission_photos",
+          "label": "Permission to take photographs, if applicable",
+          "type": "boolean_yes_no",
+          "maps_to": "consent.permission_for_photos"
+        },
+        {
+          "id": "t_id_document",
+          "label": "Scan/photograph respondent's ID (National ID, LC letter, Voter's card, etc.)",
+          "type": "id_capture",
+          "maps_to": "id_document"
+        },
+        {
+          "id": "t_signature",
+          "label": "Respondent signature (captured live on this device, right after the ID scan)",
+          "type": "signature_pad",
+          "maps_to": "signature"
+        },
+        {
+          "id": "t_respondent_photo",
+          "label": "Respondent photo",
+          "type": "photo_capture",
+          "maps_to": "respondent_photo"
+        },
+        {
+          "id": "t_interviewer_signature",
+          "label": "Interviewer signature",
+          "type": "signature_pad"
+        }
+      ]
+    },
+    {
+      "key": "U",
+      "title": "Interviewer Observations",
+      "fields": [
+        {
+          "id": "u1",
+          "label": "Observed Climate/Environmental Risks",
+          "type": "textarea"
+        },
+        {
+          "id": "u2",
+          "label": "Observed Household Vulnerabilities",
+          "type": "textarea"
+        },
+        {
+          "id": "u3",
+          "label": "Observed Adaptation Practices",
+          "type": "textarea"
+        },
+        {
+          "id": "u4",
+          "label": "Other Important Observations",
+          "type": "textarea"
+        },
+        {
+          "id": "u_voice_note",
+          "label": "Optional voice note (interviewer summary / respondent testimony, with permission)",
+          "type": "voice_recorder",
+          "maps_to": "voice_note"
+        },
+        {
+          "id": "u_extra_photos",
+          "label": "Additional photos (farm, damage, group, etc.)",
+          "type": "multi_photo_capture",
+          "maps_to": "extra_photos"
+        }
+      ]
+    }
+  ]
+}
