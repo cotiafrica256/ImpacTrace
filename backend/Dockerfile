@@ -17,6 +17,7 @@ RUN install-php-extensions \
     tokenizer \
     xml \
     zip
+    pcntl \
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
