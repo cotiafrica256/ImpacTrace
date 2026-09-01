@@ -4,6 +4,7 @@ RUN install-php-extensions \
     ctype \
     curl \
     dom \
+    pcntl \
     fileinfo \
     filter \
     gd \
@@ -17,8 +18,6 @@ RUN install-php-extensions \
     tokenizer \
     xml \
     zip
-    pcntl \
-
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
