@@ -28,6 +28,15 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --no-script
 
 COPY . .
 
+# Create Laravel required directories and make them writable
+RUN mkdir -p \
+    bootstrap/cache \
+    storage/framework/cache \
+    storage/framework/sessions \
+    storage/framework/views \
+    storage/logs \
+    && chmod -R 775 bootstrap/cache storage
+
 RUN php artisan storage:link || true
 
 EXPOSE 80
