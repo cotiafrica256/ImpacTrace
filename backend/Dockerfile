@@ -15,6 +15,14 @@ WORKDIR /app
 
 COPY . .
 
+# Create required directories BEFORE composer install (needed for post-autoload-dump scripts)
+RUN mkdir -p \
+    bootstrap/cache \
+    storage/framework/cache \
+    storage/framework/sessions \
+    storage/framework/views \
+    storage/logs
+
 RUN composer install \
     --no-dev \
     --optimize-autoloader \
@@ -26,13 +34,6 @@ RUN cp .env.example .env
 
 # Generate APP_KEY if not present
 RUN php artisan key:generate
-
-RUN mkdir -p \
-    bootstrap/cache \
-    storage/framework/cache \
-    storage/framework/sessions \
-    storage/framework/views \
-    storage/logs
 
 RUN chmod -R 775 bootstrap/cache storage
 
