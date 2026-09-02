@@ -1,0 +1,31 @@
+HTTP/1.1 302 Found
+access-control-allow-credentials: true
+access-control-allow-origin: https://impactrace-91a50f.netlify.app
+Cache-Control: no-cache, private
+Content-Type: text/html; charset=utf-8
+Date: Wed, 02 Sep 2026 07:25:27 GMT
+location: http://impactrace-production.up.railway.app
+Server: railway-hikari
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-powered-by: PHP/8.2.33
+x-railway-request-id: x-m1cc0tQ7mY1AqHjq4OvQ
+x-xss-protection: 1; mode=block
+Content-Length: 418
+x-hikari-trace: jnb1.x1wt
+x-railway-edge: jnb1
+vary: accept-encoding
+Connection: keep-alive
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="refresh" content="0;url='http://impactrace-production.up.railway.app'" />
+
+        <title>Redirecting to http://impactrace-production.up.railway.app</title>
+    </head>
+    <body>
+        Redirecting to <a href="http://impactrace-production.up.railway.app">http://impactrace-production.up.railway.app</a>.
+    </body>
+</html>
