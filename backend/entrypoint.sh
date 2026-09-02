@@ -69,6 +69,12 @@ if grep -q "^APP_KEY=$" /app/.env; then
     php /app/artisan key:generate --force
 fi
 
+# Install Composer dependencies if vendor/ doesn't exist or is incomplete
+if [ ! -d "/app/vendor" ] || [ ! -f "/app/vendor/autoload.php" ]; then
+    echo "Installing Composer dependencies..."
+    composer install --no-dev --optimize-autoloader
+fi
+
 # Run migrations if needed (optional, comment out if you prefer manual migration)
 # php /app/artisan migrate --force
 
