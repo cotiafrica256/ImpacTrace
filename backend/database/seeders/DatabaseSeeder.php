@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         try {
             // --- COTIA: the platform super-admin, belongs to no organisation ---
-            $superAdmin = User::firstOrCreate(
+            $superAdmin = User::updateOrCreate(
                 ['email' => 'admin@cotia.africa'],
                 [
                     'organization_id' => null,
@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
             );
             $this->command->info('✓ MECPA Uganda organization');
 
-            $ed = User::firstOrCreate(
+            $ed = User::updateOrCreate(
                 ['email' => 'ed@mecpa.org'],
                 [
                     'organization_id' => $organization->id,
@@ -52,7 +52,7 @@ class DatabaseSeeder extends Seeder
             );
             $this->command->info('✓ ED (ed@mecpa.org)');
 
-            $meo = User::firstOrCreate(
+            $meo = User::updateOrCreate(
                 ['email' => 'meo@mecpa.org'],
                 [
                     'organization_id' => $organization->id,
@@ -64,7 +64,7 @@ class DatabaseSeeder extends Seeder
             );
             $this->command->info('✓ M&E Officer (meo@mecpa.org)');
 
-            $po = User::firstOrCreate(
+            $po = User::updateOrCreate(
                 ['email' => 'po@mecpa.org'],
                 [
                     'organization_id' => $organization->id,
@@ -72,11 +72,12 @@ class DatabaseSeeder extends Seeder
                     'password' => Hash::make('ChangeMe!2026'),
                     'role' => User::ROLE_PO,
                     'supervisor_id' => $meo->id,
+                    'is_active' => true,
                 ]
             );
             $this->command->info('✓ Project Officer (po@mecpa.org)');
 
-            $fo = User::firstOrCreate(
+            $fo = User::updateOrCreate(
                 ['email' => 'fo@mecpa.org'],
                 [
                     'organization_id' => $organization->id,
