@@ -77,7 +77,7 @@ composer install --no-dev --optimize-autoloader
 php /app/artisan migrate --force
 
 # Run seeders (creates demo accounts and test data - idempotent, safe to run multiple times)
-php /app/artisan db:seed --force
+# php /app/artisan db:seed --force
 
 # Start FrankenPHP
 exec frankenphp run --config /app/Caddyfile
