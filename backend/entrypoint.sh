@@ -76,8 +76,5 @@ composer install --no-dev --optimize-autoloader
 # Run migrations (creates/updates all database tables)
 php /app/artisan migrate --force
 
-# Run seeders (populates admin account and test data)
-php /app/artisan db:seed --force
-
 # Start FrankenPHP
 exec frankenphp run --config /app/Caddyfile
