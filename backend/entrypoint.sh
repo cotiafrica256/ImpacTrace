@@ -73,8 +73,11 @@ fi
 echo "Installing/verifying Composer dependencies..."
 composer install --no-dev --optimize-autoloader
 
-# Run migrations if needed (optional, comment out if you prefer manual migration)
-# php /app/artisan migrate --force
+# Run migrations (creates/updates all database tables)
+php /app/artisan migrate --force
+
+# Run seeders (populates admin account and test data)
+php /app/artisan db:seed --force
 
 # Start FrankenPHP
 exec frankenphp run --config /app/Caddyfile
