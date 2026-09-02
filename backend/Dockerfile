@@ -1,3 +1,4 @@
+# Cache-busting rebuild - 2026-09-02 04:20
 FROM dunglas/frankenphp:php8.2
 
 RUN install-php-extensions \
