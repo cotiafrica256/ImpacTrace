@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
                     'name' => 'COTIA Platform Admin',
                     'password' => Hash::make('ChangeMe!2026'),
                     'role' => User::ROLE_SUPER_ADMIN,
+                    'is_active' => true,
                 ]
             );
             $this->command->info('✓ COTIA admin (admin@cotia.africa)');
@@ -46,6 +47,7 @@ class DatabaseSeeder extends Seeder
                     'name' => 'Executive Director',
                     'password' => Hash::make('ChangeMe!2026'),
                     'role' => User::ROLE_ED,
+                    'is_active' => true,
                 ]
             );
             $this->command->info('✓ ED (ed@mecpa.org)');
@@ -57,6 +59,7 @@ class DatabaseSeeder extends Seeder
                     'name' => 'M&E Officer (demo)',
                     'password' => Hash::make('ChangeMe!2026'),
                     'role' => User::ROLE_MEO,
+                    'is_active' => true,
                 ]
             );
             $this->command->info('✓ M&E Officer (meo@mecpa.org)');
@@ -81,6 +84,7 @@ class DatabaseSeeder extends Seeder
                     'password' => Hash::make('ChangeMe!2026'),
                     'role' => User::ROLE_FO,
                     'supervisor_id' => $po->id,
+                    'is_active' => true,
                 ]
             );
             $this->command->info('✓ Field Officer (fo@mecpa.org)');
