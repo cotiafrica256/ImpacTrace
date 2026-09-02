@@ -28,13 +28,11 @@ class DatabaseSeeder extends Seeder
             $this->command->info('✓ COTIA admin (admin@cotia.africa)');
 
             // --- First client organisation onboarded onto the platform: MECPA Uganda ---
-            $organization = Organization::firstOrCreate(
+            $organization = Organization::updateOrCreate(
                 ['code' => 'mecpa-uganda'],
                 [
                     'name' => 'MECPA Uganda',
                     'contact_email' => 'info@mecpa.org',
-                    'primary_color' => '#0d1d2d',
-                    'secondary_color' => '#d9b15d',
                     'created_by' => $superAdmin->id,
                 ]
             );
