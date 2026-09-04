@@ -22,6 +22,7 @@ class PublicationAdminController extends Controller {
   return $publication->fresh('packages');
  }
  public function package(Request $r,Publication $publication){
+  abort_unless($r->user()->role==='super_admin',403,'Only the Super Admin can manage price packages.');
   if($r->user()->role!=='super_admin'){
    abort_unless($publication->report && $publication->report->project->organization_id===$r->user()->organization_id,404);
   }

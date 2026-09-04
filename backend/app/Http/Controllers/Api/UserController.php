@@ -26,6 +26,10 @@ class UserController extends Controller
             if ($selected) {
                 $query->where('organization_id', $selected);
             }
+            if ($request->filled('q')) {
+                $term = $request->string('q');
+                $query->where(fn ($q) => $q->where('name', 'like', "%{$term}%")->orWhere('email', 'like', "%{$term}%"));
+            }
 
             return $query->get();
         }
@@ -39,7 +43,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'phone' => 'nullable|string|max:30',
-            'role' => 'required|in:ed,meo,po,fo',
+            'role' => 'required|in:ed,meo,po,fo,customer_service,reader_manager',
             'supervisor_id' => 'nullable|exists:users,id',
             'organization_id' => 'nullable|exists:organizations,id',
             'password' => 'required|string|min:8',
@@ -82,7 +86,7 @@ class UserController extends Controller
         $data = $request->validate([
             'name' => 'sometimes|string|max:255',
             'phone' => 'nullable|string|max:30',
-            'role' => 'sometimes|in:ed,meo,po,fo',
+            'role' => 'sometimes|in:ed,meo,po,fo,customer_service,reader_manager',
             'supervisor_id' => 'nullable|exists:users,id',
             'is_active' => 'sometimes|boolean',
             'password' => 'nullable|string|min:8',

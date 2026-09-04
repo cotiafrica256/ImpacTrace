@@ -63,13 +63,15 @@ const sidebarStyle = computed(() => ({ background: `linear-gradient(180deg, ${cu
 const activeOrganizationName = computed(() => auth.isSuperAdmin && auth.selectedOrganizationId
 	? organizations.value.find((org) => org.id === auth.selectedOrganizationId)?.name || null
 	: auth.user?.organization?.name || null)
-const roleLabel = computed(() => ({ super_admin: 'COTIA Platform Admin', ed: 'Executive Director', meo: 'M&E Officer', po: 'Project Officer', fo: 'Field Officer' }[auth.role] || auth.role))
+const roleLabel = computed(() => ({ super_admin: 'COTIA Platform Admin', ed: 'Executive Director', meo: 'M&E Officer', po: 'Project Officer', fo: 'Field Officer', customer_service: 'Customer Service', reader_manager: 'Reader Manager' }[auth.role] || auth.role))
 const nav = computed(() => {
 	if (auth.isSuperAdmin) return [
 			{ to: '/app/organizations', label: 'Organizations' }, { to: '/app/projects', label: 'Projects' },
 		{ to: '/app/users', label: 'Users' }, { to: '/app/reports', label: 'Reports' },
-		{ to: '/app/admin/publications', label: 'Publications' }, { to: '/app/finance', label: 'Finance' }, { to: '/app/knowledge', label: 'Knowledge' }, { to: '/app/payments', label: 'Payments' },
+		{ to: '/app/admin/publications', label: 'Publications' }, { to: '/app/finance', label: 'Finance' }, { to: '/app/knowledge', label: 'Knowledge' }, { to: '/app/payments', label: 'Payments' }, { to: '/app/support', label: 'Help inbox' },
 	]
+	if (auth.role === 'reader_manager') return [{ to: '/app', label: 'Dashboard' }, { to: '/app/payments', label: 'Payments' }, { to: '/app/support', label: 'Help inbox' }]
+	if (auth.role === 'customer_service') return [{ to: '/app', label: 'Dashboard' }, { to: '/app/support', label: 'Help inbox' }]
 	const items = [
 		{ to: '/app', label: 'Dashboard' }, { to: '/app/projects', label: 'Projects' }, { to: '/app/submissions', label: 'Data' },
 		{ to: '/app/attendance', label: 'Attendance' }, { to: '/app/reports', label: 'Reports' },

@@ -37,6 +37,7 @@
         <div class="mt-4 grid gap-4 md:grid-cols-3"><article v-for="issue in issues" :key="issue.id" class="rounded-xl border bg-white p-5"><div class="text-xs uppercase text-emerald-700">{{ issue.status.replace('_', ' ') }}</div><h3 class="mt-1 font-semibold">{{ issue.title }}</h3><p class="mt-2 line-clamp-3 text-sm text-slate-600">{{ issue.problem || issue.evidence || 'Community advocacy issue.' }}</p></article></div>
         <div v-if="!issues.length" class="mt-4 rounded-xl border bg-white p-5 text-sm text-slate-500">Published advocacy issues will appear here.</div>
       </section>
+      <section id="help" class="mt-12 rounded-2xl border border-emerald-100 bg-[#e3f1e9] p-5 sm:p-7"><div class="max-w-2xl"><div class="text-xs font-semibold uppercase tracking-widest text-emerald-700">Need help?</div><h2 class="mt-1 text-2xl font-bold text-slate-900">Talk to our support team</h2><p class="mt-2 text-sm text-slate-600">Send a question about registration, access, or payments and our team will respond.</p><form class="mt-5 grid gap-3 sm:grid-cols-2" @submit.prevent="sendSupport"><input v-model="support.name" required placeholder="Your name"/><input v-model="support.email" required type="email" placeholder="Email address"/><input v-model="support.subject" placeholder="Subject" class="sm:col-span-2"/><textarea v-model="support.message" required rows="3" placeholder="How can we help?" class="sm:col-span-2"></textarea><button class="rounded-xl bg-[#176b4d] px-4 py-3 font-semibold text-white sm:col-span-2">Send message</button></form><p v-if="supportMessage" class="mt-3 text-sm font-medium text-emerald-800">{{ supportMessage }}</p></div></section>
     </main>
     <div v-if="showRegister" class="fixed inset-0 bg-black/50 grid place-items-center p-5">
       <form @submit.prevent="register" class="w-full max-w-md rounded-2xl bg-white p-6">
@@ -54,10 +55,11 @@
 <script setup>
 import {onMounted,ref} from 'vue'; import api from '../api/client'
 const items=ref([]),plans=ref([]),issues=ref([]),q=ref(''),loading=ref(false),showRegister=ref(false),authMode=ref('login')
-const form=ref({name:'',email:'',phone:'',password:'',password_confirmation:''})
+const form=ref({name:'',email:'',phone:'',password:'',password_confirmation:''}),support=ref({name:'',email:'',subject:'',message:''}),supportMessage=ref('')
 function openAuth(mode){authMode.value=mode;showRegister.value=true}
 async function load(){loading.value=true;try{const {data}=await api.get('/public/publications',{params:{q:q.value}});items.value=data.data||data}catch(e){items.value=[]}finally{loading.value=false}}
 async function loadPublicRecords(){const [plansResponse,issuesResponse]=await Promise.all([api.get('/public/plans'),api.get('/public/issues')]);plans.value=plansResponse.data.data||plansResponse.data;issues.value=issuesResponse.data.data||issuesResponse.data}
 async function register(){try{const endpoint=authMode.value === 'login' ? '/public/auth/login' : '/public/auth/register';const payload=authMode.value === 'login' ? {email:form.value.email,password:form.value.password}:form.value;const {data}=await api.post(endpoint,payload);localStorage.setItem('public_token',data.token);showRegister.value=false;alert(authMode.value === 'login' ? 'Signed in.' : 'Account created. You can now purchase reading access.')}catch(e){const errors=e.response?.data?.errors;const detail=errors ? Object.values(errors).flat().join(' ') : e.response?.data?.message;alert(detail||'Authentication failed. Check your email and password, or create a reader account.')}}
+async function sendSupport(){try{await api.post('/public/support',support.value);supportMessage.value='Message sent. Our support team will respond shortly.';support.value={name:'',email:'',subject:'',message:''}}catch(e){supportMessage.value=e.response?.data?.message||'We could not send your message.'}}
 onMounted(()=>{load();loadPublicRecords()})
 </script>

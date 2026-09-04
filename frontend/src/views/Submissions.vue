@@ -12,7 +12,7 @@
           <tr><th class="p-3">Code</th><th class="p-3">Respondent</th><th class="p-3">Village</th><th class="p-3">Officer</th><th class="p-3">Date</th><th class="p-3">Status</th></tr>
         </thead>
         <tbody>
-          <tr v-for="s in submissions" :key="s.id" class="border-b hover:bg-slate-50 cursor-pointer" @click="$router.push(`/submissions/${s.id}`)">
+          <tr v-for="s in submissions" :key="s.id" class="border-b hover:bg-slate-50 cursor-pointer" @click="$router.push(`/app/submissions/${s.id}`)">
             <td class="p-3">{{ s.submission_code }}</td>
             <td class="p-3">{{ s.respondent?.full_name }}</td>
             <td class="p-3">{{ s.village }}</td>

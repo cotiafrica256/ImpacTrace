@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\FinanceController;
 use App\Http\Controllers\Api\KnowledgeController;
 use App\Http\Controllers\Api\PresentationController;
 use App\Http\Controllers\Api\PublicationCommentController;
+use App\Http\Controllers\Api\SupportController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -87,6 +88,7 @@ Route::get('/public/plans', [KnowledgeController::class, 'publicPlans']);
 Route::get('/public/issues', [KnowledgeController::class, 'publicIssues']);
 Route::post('/public/auth/register', [PublicAuthController::class, 'register']);
 Route::post('/public/auth/login', [PublicAuthController::class, 'login']);
+Route::post('/public/support', [SupportController::class, 'store']);
 Route::post('/payments/webhook', [PaymentController::class, 'webhook']);
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -97,6 +99,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/public/publications/{slug}/download', [PaymentController::class, 'download']);
     Route::post('/public/publications/{slug}/comments', [PublicationCommentController::class, 'store']);
     Route::get('/finance/summary', [FinanceController::class, 'summary']);
+    Route::get('/finance/export', [FinanceController::class, 'export']);
+    Route::get('/support', [SupportController::class, 'index'])->middleware('role:super_admin,customer_service');
+    Route::put('/support/{supportRequest}', [SupportController::class, 'update'])->middleware('role:super_admin,customer_service');
 
     // Platform publishing and commercial controls.
     Route::middleware('role:super_admin,ed,meo')->group(function () {

@@ -24,7 +24,7 @@ class PaymentController extends Controller {
   return ['payment'=>$payment,'status'=>'pending_verification'];
  }
  public function verify(Request $r, Payment $payment){
-  abort_unless($r->user()->role==='super_admin',403);
+  abort_unless(in_array($r->user()->role, ['super_admin', 'reader_manager'], true),403);
   $d=$r->validate(['status'=>'required|in:paid,rejected','provider_reference'=>'nullable|string|max:120']);
   DB::transaction(function()use($payment,$d,$r){
    $payment->update(['status'=>$d['status'],'provider_reference'=>$d['provider_reference']??$payment->provider_reference,'verified_by'=>$r->user()->id,'paid_at'=>$d['status']==='paid'?now():null]);
@@ -36,8 +36,10 @@ class PaymentController extends Controller {
   return ['payment'=>$payment->fresh(),'message'=>$d['status']==='paid'?'Access activated.':'Payment rejected.'];
  }
  public function pending(Request $r){
-  abort_unless($r->user()->role==='super_admin',403);
-  return Payment::with(['user','package.publication'])->where('status','pending')->latest()->paginate(30);
+  abort_unless(in_array($r->user()->role, ['super_admin', 'reader_manager'], true),403);
+  $query=Payment::with(['user','package.publication'])->where('status','pending');
+  if($r->filled('q')){$term=$r->string('q');$query->whereHas('user',fn($q)=>$q->where('name','like',"%{$term}%")->orWhere('email','like',"%{$term}%"))->orWhere('phone','like',"%{$term}%");}
+  return $query->latest()->paginate(30);
  }
  public function access(Request $r, string $slug){
   $pub=\App\Models\Publication::where('slug',$slug)->where('status','published')->firstOrFail();

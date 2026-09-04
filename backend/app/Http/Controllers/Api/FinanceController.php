@@ -26,4 +26,13 @@ class FinanceController extends Controller {
   while(($row=fgetcsv($handle))!==false){$m=array_combine($header,$row);if(!$m)continue;$amount=(float)($m['Amount']??$m['amount']??0);$type=strtolower($m['Type']??$m['type']??'expense');if(!in_array($type,['income','expense','transfer']))$type='expense';FinanceTransaction::create(['organization_id'=>$org,'finance_import_id'=>$imp->id,'transaction_date'=>$m['Date']??$m['date']??now()->toDateString(),'type'=>$type,'account'=>$m['Account']??$m['account']??null,'category'=>$m['Category']??$m['category']??null,'project_code'=>$m['Project']??$m['project']??null,'reference'=>$m['Reference']??$m['reference']??null,'description'=>$m['Description']??$m['description']??null,'amount'=>$amount,'currency'=>$m['Currency']??'UGX']);$count++;}
   fclose($handle);$imp->update(['rows_imported'=>$count,'status'=>'processed']);return ['import'=>$imp];
  }
+ public function export(Request $r){
+      $org=$this->organizationId($r);abort_if(!$org,422,'Select an organisation first.');
+      $rows=FinanceTransaction::where('organization_id',$org)->orderBy('transaction_date')->get();
+      return response()->streamDownload(function()use($rows){
+         $out=fopen('php://output','w');fputcsv($out,['Date','Type','Account','Category','Project','Reference','Description','Amount','Currency']);
+         foreach($rows as $row)fputcsv($out,[$row->transaction_date?->format('Y-m-d'),$row->type,$row->account,$row->category,$row->project_code,$row->reference,$row->description,$row->amount,$row->currency]);
+         fclose($out);
+      },'finance-transactions.csv',['Content-Type'=>'text/csv']);
+ }
 }

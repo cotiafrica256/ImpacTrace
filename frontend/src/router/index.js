@@ -22,8 +22,9 @@ const routes = [
       { path: 'admin/publications', name: 'publications-admin', component: () => import('../views/PublicationsAdmin.vue'), meta: { roles: ['super_admin','ed','meo'] } },
       { path: 'finance', name: 'finance', component: () => import('../views/Finance.vue'), meta: { roles: ['super_admin','ed','meo'] } },
       { path: 'knowledge', name: 'knowledge', component: () => import('../views/KnowledgeRecords.vue'), meta: { roles: ['super_admin','ed','meo'] } },
-      { path: 'payments', name: 'payments', component: () => import('../views/PaymentReview.vue'), meta: { roles: ['super_admin'] } },
+      { path: 'payments', name: 'payments', component: () => import('../views/PaymentReview.vue'), meta: { roles: ['super_admin', 'reader_manager'] } },
       { path: 'users', name: 'users', component: () => import('../views/Users.vue'), meta: { roles: ['super_admin', 'ed'] } },
+      { path: 'support', name: 'support', component: () => import('../views/Support.vue'), meta: { roles: ['super_admin', 'customer_service'] } },
     ],
   },
 ]

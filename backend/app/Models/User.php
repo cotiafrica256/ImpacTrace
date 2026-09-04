@@ -25,6 +25,8 @@ class User extends Authenticatable
     public const ROLE_MEO = 'meo';
     public const ROLE_PO = 'po';
     public const ROLE_FO = 'fo';
+    public const ROLE_CUSTOMER_SERVICE = 'customer_service';
+    public const ROLE_READER_MANAGER = 'reader_manager';
 
     protected $fillable = [
         'organization_id', 'name', 'email', 'phone', 'password', 'role', 'supervisor_id', 'is_active', 'avatar_path',

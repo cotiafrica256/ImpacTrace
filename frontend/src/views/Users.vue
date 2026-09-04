@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-      <h1 class="text-xl font-semibold text-navy-900">Users &amp; roles</h1>
+      <div><h1 class="text-xl font-semibold text-navy-900">Users &amp; roles</h1><input v-if="auth.isSuperAdmin" v-model="search" @input="load" placeholder="Search all users..." class="mt-2 w-full max-w-sm text-sm" /></div>
       <div v-if="auth.isSuperAdmin" class="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 shadow-sm">
         <span class="text-xs font-medium uppercase tracking-[0.12em] text-slate-500">Organisation</span>
         <select :value="selectedOrgValue" @change="setSelectedOrg" class="rounded-lg border-slate-300 bg-white text-sm">
@@ -25,6 +25,8 @@
                 <option value="meo">M&E Officer</option>
                 <option value="po">Project Officer</option>
                 <option value="fo">Field Officer</option>
+                <option value="customer_service">Customer Service</option>
+                <option value="reader_manager">Reader Manager</option>
               </select>
             </td>
             <td class="p-3">{{ u.is_active ? 'Active' : 'Deactivated' }}</td>
@@ -53,6 +55,8 @@
             <option value="po">Project Officer</option>
             <option value="meo">M&E Officer</option>
             <option value="ed">Executive Director</option>
+            <option value="customer_service">Customer Service</option>
+            <option value="reader_manager">Reader Manager</option>
           </select>
           <input v-model="form.password" type="password" placeholder="Temporary password" class="w-full rounded-lg border-slate-300" />
         </div>
@@ -74,6 +78,7 @@ const auth = useAuthStore()
 const users = ref([])
 const organizations = ref([])
 const showCreate = ref(false)
+const search = ref('')
 const selectedOrgValue = ref(auth.selectedOrganizationId ? String(auth.selectedOrganizationId) : '')
 const form = ref({
   name: '',
@@ -99,7 +104,10 @@ async function loadOrganizations() {
 }
 
 async function load() {
-  const query = auth.isSuperAdmin && auth.selectedOrganizationId ? `?organization_id=${auth.selectedOrganizationId}` : ''
+  const params = new URLSearchParams()
+  if (auth.isSuperAdmin && auth.selectedOrganizationId) params.set('organization_id', auth.selectedOrganizationId)
+  if (auth.isSuperAdmin && search.value) params.set('q', search.value)
+  const query = params.toString() ? `?${params.toString()}` : ''
   const { data } = await api.get(`/users${query}`)
   users.value = data
 }
