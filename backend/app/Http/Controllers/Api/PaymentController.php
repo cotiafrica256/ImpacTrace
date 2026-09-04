@@ -14,7 +14,7 @@ class PaymentController extends Controller {
   $r->validate(['phone'=>'required|string|max:30','method'=>'required|in:gateway,momo_manual']);
   $amount=$r->input('method')==='momo_manual'&&$package->momo_amount_ugx ? $package->momo_amount_ugx : $package->amount_ugx;
   $p=Payment::create(['public_user_id'=>$r->user()->id,'access_package_id'=>$package->id,'method'=>$r->method,'provider'=>config('services.momo.provider'),'phone'=>$r->phone,'amount_ugx'=>$amount,'status'=>'pending']);
-  if($r->input('method')==='momo_manual') return response()->json(['payment'=>$p,'merchant_code'=>config('services.momo.merchant_code'),'instructions'=>'Pay the displayed amount using the merchant code, then submit the last 5 characters of your transaction reference.']);
+  if($r->input('method')==='momo_manual') return response()->json(['payment'=>$p,'merchant_code'=>config('services.momo.merchant_code'),'ussd_code'=>config('services.momo.ussd_code'),'instructions'=>'Dial '.config('services.momo.ussd_code').' to pay the displayed amount to the merchant code, then submit the last 5 characters of your transaction reference.']);
   return response()->json(['payment'=>$p,'message'=>'Payment request created. Connect the configured mobile-money provider to complete the push request.']);
  }
  public function submitReference(Request $r, Payment $payment){
