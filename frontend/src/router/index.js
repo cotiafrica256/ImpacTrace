@@ -5,6 +5,7 @@ const routes = [
   { path: '/', name: 'public-home', component: () => import('../views/PublicHome.vue'), meta: { public: true } },
   { path: '/publications', redirect: '/' },
   { path: '/publications/:slug', name: 'public-publication', component: () => import('../views/PublicPublication.vue'), meta: { public: true } },
+  { path: '/reader/register', name: 'reader-register', component: () => import('../views/ReaderRegister.vue'), meta: { public: true } },
   { path: '/login', name: 'login', component: () => import('../views/Login.vue'), meta: { guest: true } },
   {
     path: '/app', component: () => import('../views/AppLayout.vue'),

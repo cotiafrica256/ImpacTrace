@@ -6,6 +6,7 @@
         <nav class="flex flex-wrap items-center justify-end gap-2">
           <a href="#plans" class="hidden text-sm text-slate-300 sm:inline">Plans</a>
           <a href="#issues" class="hidden text-sm text-slate-300 sm:inline">Issues</a>
+          <a href="https://www.youtube.com/results?search_query=CodeToInnovate+Africa" target="_blank" rel="noopener noreferrer" class="rounded-lg border border-red-300/40 px-4 py-2 text-sm text-red-100">Watch YouTube</a>
           <RouterLink to="/login" class="rounded-lg border border-white/20 px-4 py-2 text-sm">Organisation Login</RouterLink>
           <button @click="openAuth('login')" class="rounded-lg bg-[#d9b15d] px-4 py-2 text-sm font-semibold text-[#0d1d2d]">Sign in / Register</button>
         </nav>
@@ -56,6 +57,6 @@ const form=ref({name:'',email:'',phone:'',password:'',password_confirmation:''})
 function openAuth(mode){authMode.value=mode;showRegister.value=true}
 async function load(){loading.value=true;try{const {data}=await api.get('/public/publications',{params:{q:q.value}});items.value=data.data||data}catch(e){items.value=[]}finally{loading.value=false}}
 async function loadPublicRecords(){const [plansResponse,issuesResponse]=await Promise.all([api.get('/public/plans'),api.get('/public/issues')]);plans.value=plansResponse.data.data||plansResponse.data;issues.value=issuesResponse.data.data||issuesResponse.data}
-async function register(){try{const endpoint=authMode.value === 'login' ? '/public/auth/login' : '/public/auth/register';const {data}=await api.post(endpoint,authMode.value === 'login' ? {email:form.value.email,password:form.value.password}:form.value);localStorage.setItem('public_token',data.token);showRegister.value=false;alert(authMode.value === 'login' ? 'Signed in.' : 'Account created. You can now purchase reading access.')}catch(e){alert(e.response?.data?.message||'Authentication failed')}}
+async function register(){try{const endpoint=authMode.value === 'login' ? '/public/auth/login' : '/public/auth/register';const payload=authMode.value === 'login' ? {email:form.value.email,password:form.value.password}:form.value;const {data}=await api.post(endpoint,payload);localStorage.setItem('public_token',data.token);showRegister.value=false;alert(authMode.value === 'login' ? 'Signed in.' : 'Account created. You can now purchase reading access.')}catch(e){const errors=e.response?.data?.errors;const detail=errors ? Object.values(errors).flat().join(' ') : e.response?.data?.message;alert(detail||'Authentication failed. Check your email and password, or create a reader account.')}}
 onMounted(()=>{load();loadPublicRecords()})
 </script>
