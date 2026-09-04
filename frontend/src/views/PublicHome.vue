@@ -50,6 +50,10 @@
         <button type="button" @click="authMode=authMode === 'login' ? 'register' : 'login'" class="mt-3 text-sm text-[#0d1d2d] underline">{{ authMode === 'login' ? 'Create a reader account' : 'I already have an account' }}</button>
       </form>
     </div>
+    <div class="fixed bottom-5 right-5 z-30 flex flex-col gap-3" aria-label="Social contacts">
+      <a href="https://wa.me/256774443132" target="_blank" rel="noopener noreferrer" aria-label="Chat with COTIA on WhatsApp" title="Chat on WhatsApp" class="grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-2xl font-bold text-white shadow-lg shadow-emerald-950/20 ring-4 ring-white/80 transition hover:scale-105">WA</a>
+      <a href="https://x.com/CodetoinnovateA" target="_blank" rel="noopener noreferrer" aria-label="Follow CodeToInnovate Africa on X" title="Follow us on X" class="grid h-14 w-14 place-items-center rounded-full bg-black text-xl font-bold text-white shadow-lg shadow-slate-900/20 ring-4 ring-white/80 transition hover:scale-105">X</a>
+    </div>
   </div>
 </template>
 <script setup>
