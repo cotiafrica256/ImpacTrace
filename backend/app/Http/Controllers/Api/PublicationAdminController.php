@@ -7,13 +7,13 @@ use Illuminate\Support\Str;
 class PublicationAdminController extends Controller {
  public function index(){return Publication::with('packages')->latest()->paginate(30);}
  public function store(Request $r){
-    $d=$r->validate(['report_id'=>'nullable|integer|exists:reports,id','title'=>'required|string|max:255','summary'=>'required|string','content'=>'nullable|string','category'=>'nullable|string|max:100','cover_image'=>'nullable|string','status'=>'in:draft,review']);
+    $d=$r->validate(['report_id'=>'nullable|integer|exists:reports,id','title'=>'required|string|max:255','summary'=>'required|string','content'=>'nullable|string','category'=>'nullable|string|max:100','cover_image'=>'nullable|string','youtube_url'=>'nullable|url|max:500','status'=>'in:draft,review']);
     if($r->user()->role!=='super_admin' && !empty($d['report_id'])) abort_unless(\App\Models\Report::whereKey($d['report_id'])->whereHas('project',fn($q)=>$q->where('organization_id',$r->user()->organization_id))->exists(),404);
   $d['slug']=Str::slug($d['title']).'-'.Str::lower(Str::random(5));$d['published_by']=null;$d['published_at']=null;
   return response()->json(Publication::create($d),201);
  }
  public function update(Request $r,Publication $publication){
-  $d=$r->validate(['title'=>'sometimes|string|max:255','summary'=>'sometimes|string','content'=>'nullable|string','category'=>'nullable|string|max:100','status'=>'sometimes|in:draft,review,approved']);
+  $d=$r->validate(['title'=>'sometimes|string|max:255','summary'=>'sometimes|string','content'=>'nullable|string','category'=>'nullable|string|max:100','youtube_url'=>'nullable|url|max:500','status'=>'sometimes|in:draft,review,approved']);
   $publication->update($d);return $publication->fresh('packages');
  }
  public function publish(Request $r,Publication $publication){

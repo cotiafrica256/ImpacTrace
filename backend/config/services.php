@@ -1,7 +1,8 @@
 <?php
 return [
  'momo' => [
-   'provider' => env('MOMO_PROVIDER',''),
+  'provider' => env('MOMO_PROVIDER',''),
+  'merchant_code' => env('MOMO_MERCHANT_CODE',''),
    'base_url' => env('MOMO_BASE_URL',''),
    'api_key' => env('MOMO_API_KEY',''),
    'api_secret' => env('MOMO_API_SECRET',''),
