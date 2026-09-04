@@ -170,8 +170,11 @@ API URL before building.
 **Built and working end-to-end:** COTIA super-admin onboarding client organisations,
 full data isolation between organisations (enforced in every controller, not just the
 UI), authentication & roles, project/form management, the full MECPA form as a live
-example, consent + duplicate-prevention data collection, attendance extraction, and
-report generation with auto-computed statistics.
+example, consent + duplicate-prevention data collection, attendance extraction, report
+generation with auto-computed statistics, the public searchable data bank, reader
+accounts, paid reading/download access, manual MoMo verification, publication comments,
+PAR cycles, QuickBooks-style finance import/summary, district plans, stakeholder
+meetings, advocacy issues, and presentation-deck records.
 
 **Sensible next additions**, once you're using this day to day and know what you need:
 - PDF/Word export of generated reports (branded with your COTIA/logo letterhead) —
@@ -180,6 +183,31 @@ report generation with auto-computed statistics.
   saved to the device and synced once back online).
 - A visual (drag-and-drop) form builder in place of pasting JSON, once you've built a
   few forms by hand and know the shapes you actually need.
+- A production mobile-money adapter after the provider and webhook credentials are supplied.
+- Full visual editors and presentation rendering for the deck, PAR, plans, meetings, and advocacy records.
 - Dashboards/charts summarising vulnerability scores and disaggregated data over time.
 
 None of these require restructuring what's here — they build on top of it.
+
+## 9. Public data bank and participation
+
+The platform also includes a public knowledge bank at `/publications`. Published
+research is searchable by title, summary, category, and issue. Visitors can read the
+summary, create a reader account, and request either a time-limited reading package or
+a separate download package. Package prices, reading duration, and the different
+gateway/MoMo amounts are configured by administrators. Manual MoMo payments accept the
+last five characters of the transaction reference and remain pending until the COTIA
+super-admin verifies them; provider webhooks can activate access automatically once the
+real provider adapter and signature validation are configured.
+
+Organisation users can also use the PAR cycle endpoint (`plan`, `act`, `observe`, and
+`reflect`), QuickBooks-style CSV finance import and summaries, and the publication admin
+workflow. The merged source includes the presentation, district/sub-county plan,
+stakeholder meeting, advocacy, and publication data models as the next API expansion
+surface.
+
+The application cannot technically guarantee that a reader will not photograph a
+screen or capture content with operating-system tools. It protects content through
+server-side access checks, time limits, download permissions, and publication controls;
+additional browser deterrents should be treated as a user-experience measure, not a
+security boundary.

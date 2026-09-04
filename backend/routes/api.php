@@ -9,6 +9,15 @@ use App\Http\Controllers\Api\ReportController;
 use App\Http\Controllers\Api\SubmissionController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\PublicPortalController;
+use App\Http\Controllers\Api\PublicAuthController;
+use App\Http\Controllers\Api\PaymentController;
+use App\Http\Controllers\Api\PublicationAdminController;
+use App\Http\Controllers\Api\ParController;
+use App\Http\Controllers\Api\FinanceController;
+use App\Http\Controllers\Api\KnowledgeController;
+use App\Http\Controllers\Api\PresentationController;
+use App\Http\Controllers\Api\PublicationCommentController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -67,5 +76,54 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/reports/generate', [ReportController::class, 'generate']);
         Route::get('/reports/{report}/pdf', [ReportController::class, 'downloadPdf']);
         Route::put('/reports/{report}', [ReportController::class, 'update']);
+    });
+});
+
+// Public knowledge bank: summaries/search are public; full content is protected.
+Route::get('/public/publications', [PublicPortalController::class, 'index']);
+Route::get('/public/publications/{slug}', [PublicPortalController::class, 'show']);
+Route::get('/public/publications/{slug}/comments', [PublicationCommentController::class, 'index']);
+Route::post('/public/auth/register', [PublicAuthController::class, 'register']);
+Route::post('/public/auth/login', [PublicAuthController::class, 'login']);
+Route::post('/payments/webhook', [PaymentController::class, 'webhook']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/public/auth/logout', [PublicAuthController::class, 'logout']);
+    Route::post('/payments/packages/{package}/initiate', [PaymentController::class, 'initiate']);
+    Route::post('/payments/{payment}/reference', [PaymentController::class, 'submitReference']);
+    Route::get('/public/publications/{slug}/access', [PaymentController::class, 'access']);
+    Route::get('/public/publications/{slug}/download', [PaymentController::class, 'download']);
+    Route::post('/public/publications/{slug}/comments', [PublicationCommentController::class, 'store']);
+    Route::get('/finance/summary', [FinanceController::class, 'summary']);
+
+    // Platform publishing and commercial controls.
+    Route::middleware('role:super_admin,ed,meo')->group(function () {
+        Route::get('/admin/publications', [PublicationAdminController::class, 'index']);
+        Route::post('/admin/publications', [PublicationAdminController::class, 'store']);
+        Route::put('/admin/publications/{publication}', [PublicationAdminController::class, 'update']);
+        Route::post('/admin/publications/{publication}/packages', [PublicationAdminController::class, 'package']);
+        Route::get('/admin/par/{project}', [ParController::class, 'index']);
+        Route::post('/admin/par/{project}', [ParController::class, 'store']);
+        Route::put('/admin/par/{parCycle}', [ParController::class, 'update']);
+    });
+    Route::middleware('role:super_admin,ed,meo')->group(function () {
+        Route::post('/finance/import', [FinanceController::class, 'import']);
+        Route::get('/knowledge/geography', [KnowledgeController::class, 'geography']);
+        Route::post('/knowledge/geography', [KnowledgeController::class, 'storeGeography']);
+        Route::get('/knowledge/plans', [KnowledgeController::class, 'plans']);
+        Route::post('/knowledge/plans', [KnowledgeController::class, 'storePlan']);
+        Route::get('/knowledge/meetings', [KnowledgeController::class, 'meetings']);
+        Route::post('/knowledge/meetings', [KnowledgeController::class, 'storeMeeting']);
+        Route::get('/knowledge/issues', [KnowledgeController::class, 'issues']);
+        Route::post('/knowledge/issues', [KnowledgeController::class, 'storeIssue']);
+        Route::get('/presentations', [PresentationController::class, 'index']);
+        Route::post('/presentations', [PresentationController::class, 'store']);
+        Route::put('/presentations/{deck}', [PresentationController::class, 'update']);
+    });
+    Route::middleware('role:super_admin')->group(function () {
+        Route::post('/admin/publications/{publication}/publish', [PublicationAdminController::class, 'publish']);
+        Route::get('/admin/payments/pending', [PaymentController::class, 'pending']);
+        Route::post('/admin/payments/{payment}/verify', [PaymentController::class, 'verify']);
+        Route::put('/admin/comments/{comment}', [PublicationCommentController::class, 'moderate']);
     });
 });
