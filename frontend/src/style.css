@@ -7,8 +7,10 @@
   --impac-navy-soft: #16324c;
   --impac-teal: #0f766e;
   --impac-emerald: #0f7b4f;
-  --impac-slate: #f3f5f7;
-  --impac-border: #dfe6ee;
+  --impac-green: #176b4d;
+  --impac-mint: #e8f3ed;
+  --impac-slate: #eef5f1;
+  --impac-border: #cbded3;
   --impac-text: #1d2a37;
 }
 
@@ -19,7 +21,7 @@ html {
 body {
   @apply bg-slate-100 text-slate-800 antialiased;
   font-family: 'Avenir Next', 'Segoe UI', sans-serif;
-  background: #f4f7f9;
+  background: #eef5f1;
 }
 
 #app {
@@ -31,7 +33,7 @@ input, textarea, select, button {
 }
 
 input, textarea, select {
-  @apply min-h-11 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-700 bg-white shadow-sm transition focus:outline-none focus:ring-2 focus:ring-sky-200 focus:border-sky-500;
+  @apply min-h-11 border border-emerald-200 rounded-xl px-3 py-2.5 text-slate-700 bg-white shadow-sm transition focus:outline-none focus:ring-2 focus:ring-emerald-200 focus:border-emerald-600;
 }
 
 button {

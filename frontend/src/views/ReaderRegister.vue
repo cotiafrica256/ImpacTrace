@@ -1,6 +1,6 @@
 <template>
-  <div class="min-h-screen bg-[#071d2d] px-4 py-10 sm:py-16">
-    <main class="mx-auto max-w-md rounded-3xl bg-white p-6 shadow-2xl sm:p-9">
+  <div class="min-h-screen bg-[#123f31] px-4 py-10 sm:py-16">
+    <main class="mx-auto max-w-md rounded-3xl bg-[#f4faf6] p-6 shadow-2xl sm:p-9">
       <RouterLink to="/" class="text-sm font-semibold text-teal-700">← Back to Data Bank</RouterLink>
       <div class="mt-8">
         <p class="text-xs font-semibold uppercase tracking-[0.18em] text-amber-700">Reader access</p>

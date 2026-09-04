@@ -1,8 +1,8 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-[#071d2d] px-4 py-12">
-    <div class="w-full max-w-md rounded-[28px] bg-[#f4f5f6] p-7 shadow-2xl shadow-slate-950/20 ring-1 ring-slate-200 md:p-9">
+  <div class="min-h-screen flex items-center justify-center bg-[#123f31] px-4 py-12">
+    <div class="w-full max-w-md rounded-[28px] bg-[#f4faf6] p-7 shadow-2xl shadow-emerald-950/20 ring-1 ring-emerald-100 md:p-9">
       <div class="mb-8 text-center">
-        <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-[#0d1d2d] text-4xl font-bold text-[#d9b15d] shadow-lg shadow-slate-900/10">I</div>
+        <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-[#176b4d] text-4xl font-bold text-[#e5c56b] shadow-lg shadow-emerald-950/20">I</div>
         <h1 class="mt-6 text-3xl font-semibold tracking-tight text-slate-800">ImpacTrace</h1>
         <p class="mt-2 text-base text-slate-500">Data collection &amp; reporting</p>
       </div>
@@ -19,7 +19,7 @@
 
         <p v-if="error" class="text-sm text-red-600">{{ error }}</p>
 
-        <button :disabled="loading" class="w-full rounded-xl bg-[#0d1d2d] py-3.5 text-lg font-semibold text-white shadow-lg shadow-slate-900/15 hover:bg-[#16324c] disabled:cursor-not-allowed disabled:opacity-70">
+        <button :disabled="loading" class="w-full rounded-xl bg-[#176b4d] py-3.5 text-lg font-semibold text-white shadow-lg shadow-emerald-950/15 hover:bg-[#12563e] disabled:cursor-not-allowed disabled:opacity-70">
           {{ loading ? 'Signing in...' : 'Sign in' }}
         </button>
       </form>

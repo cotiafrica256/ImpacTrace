@@ -1,13 +1,13 @@
 <template>
-  <div class="min-h-screen bg-slate-50">
-    <header class="bg-[#0d1d2d] p-5 text-white"><div class="mx-auto max-w-4xl"><RouterLink to="/" class="font-semibold">← Data Bank</RouterLink></div></header>
+  <div class="min-h-screen bg-[#eef5f1]">
+    <header class="bg-[#123f31] p-5 text-white shadow-lg"><div class="mx-auto max-w-4xl"><RouterLink to="/" class="font-semibold">← Data Bank</RouterLink></div></header>
     <main class="mx-auto max-w-4xl px-4 py-8 sm:px-5">
       <div v-if="pub">
         <div class="text-xs font-semibold uppercase tracking-[0.16em] text-teal-700">{{ pub.category || 'Research' }}</div>
         <h1 class="mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">{{ pub.title }}</h1>
         <p class="mt-4 text-lg leading-8 text-slate-600">{{ pub.summary }}</p>
         <a v-if="pub.youtube_url" :href="pub.youtube_url" target="_blank" rel="noopener noreferrer" class="mt-5 inline-flex items-center gap-2 rounded-xl bg-red-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-red-700">Watch related video on YouTube ↗</a>
-        <div class="mt-8 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+        <div class="mt-8 rounded-2xl border border-emerald-100 bg-[#f9fcfa] p-5 shadow-sm sm:p-7">
           <div v-if="hasAccess"><div class="mb-4 flex flex-wrap items-center justify-between gap-3 text-xs font-semibold text-emerald-700"><span>ACCESS ACTIVE · EXPIRES {{ access.expires_at ? new Date(access.expires_at).toLocaleString() : 'NEVER' }}</span><button v-if="access.can_download" @click="download" class="rounded-lg bg-[#0d1d2d] px-3 py-2 text-white">Download report</button></div><div class="prose max-w-none whitespace-pre-wrap">{{ pub.content }}</div></div>
           <div v-else><h2 class="text-xl font-semibold text-slate-900">Unlock the full report</h2><p class="mt-2 text-slate-600">Choose a package and payment method. Public summaries and YouTube videos remain free.</p><div class="mt-5 grid gap-3 md:grid-cols-2"><div v-for="pkg in pub.packages" :key="pkg.id" class="rounded-xl border border-slate-200 p-4"><div class="font-semibold">{{ pkg.name }}</div><div class="mt-1 text-lg">UGX {{ Number(pkg.amount_ugx).toLocaleString() }}</div><div class="text-xs text-slate-500">{{ pkg.type === 'reading' ? `${pkg.duration_minutes} minutes` : 'Download licence' }}</div><button @click="openPayment(pkg)" class="mt-3 w-full rounded-lg bg-[#0d1d2d] p-3 font-semibold text-white">Choose payment</button></div></div></div>
         </div>
