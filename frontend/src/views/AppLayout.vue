@@ -1,7 +1,7 @@
 <template>
 	<div class="min-h-screen bg-slate-100 text-slate-800 md:flex">
 		<div v-if="mobileNavOpen" class="fixed inset-0 z-30 bg-slate-950/50 md:hidden" @click="mobileNavOpen = false"></div>
-		<aside :style="sidebarStyle" :class="mobileNavOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-40 w-[min(84vw,18rem)] text-white shadow-2xl transition-transform duration-300 md:static md:z-auto md:min-h-screen md:w-72 md:translate-x-0 md:shadow-none">
+		<aside :style="sidebarStyle" :class="mobileNavOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-40 flex w-[min(84vw,18rem)] flex-col overflow-y-auto text-white shadow-2xl transition-transform duration-300 md:static md:z-auto md:min-h-screen md:w-72 md:translate-x-0 md:shadow-none">
 			<div class="flex items-center justify-between border-b border-white/10 px-5 py-4 md:block md:pb-6 md:pt-7">
 				<div class="flex items-center gap-3 md:block">
 					<div v-if="currentOrgLogo" class="mb-3 flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl bg-white/10 md:mb-3">
@@ -25,7 +25,7 @@
 				<div v-if="activeOrganizationName" class="mt-2 text-[11px] text-slate-200">{{ activeOrganizationName }}</div>
 			</div>
 
-			<nav class="flex flex-col gap-1 overflow-y-auto p-3 md:gap-2 md:p-4">
+			<nav class="flex flex-1 flex-col gap-1 p-3 md:gap-2 md:p-4">
 				<RouterLink v-for="item in nav" :key="item.to" :to="item.to" @click="mobileNavOpen = false" class="rounded-xl px-4 py-3 text-sm font-medium text-slate-200 hover:bg-white/5" active-class="bg-white/10 text-[#d9b15d] ring-1 ring-white/10">
 					{{ item.label }}
 				</RouterLink>
@@ -69,6 +69,7 @@ const nav = computed(() => {
 			{ to: '/app/organizations', label: 'Organizations' }, { to: '/app/projects', label: 'Projects' },
 		{ to: '/app/users', label: 'Users' }, { to: '/app/reports', label: 'Reports' },
 		{ to: '/app/admin/publications', label: 'Publications' }, { to: '/app/finance', label: 'Finance' }, { to: '/app/knowledge', label: 'Knowledge' }, { to: '/app/payments', label: 'Payments' }, { to: '/app/support', label: 'Help inbox' },
+		{ to: '/app/presentations', label: 'Presentations' },
 	]
 	if (auth.role === 'reader_manager') return [{ to: '/app', label: 'Dashboard' }, { to: '/app/payments', label: 'Payments' }, { to: '/app/support', label: 'Help inbox' }]
 	if (auth.role === 'customer_service') return [{ to: '/app', label: 'Dashboard' }, { to: '/app/support', label: 'Help inbox' }]
@@ -76,7 +77,7 @@ const nav = computed(() => {
 		{ to: '/app', label: 'Dashboard' }, { to: '/app/projects', label: 'Projects' }, { to: '/app/submissions', label: 'Data' },
 		{ to: '/app/attendance', label: 'Attendance' }, { to: '/app/reports', label: 'Reports' },
 	]
-	if (auth.isEd || auth.role === 'meo') items.push({ to: '/app/admin/publications', label: 'Publications' }, { to: '/app/finance', label: 'Finance' }, { to: '/app/knowledge', label: 'Knowledge' })
+	if (auth.isEd || auth.role === 'meo') items.push({ to: '/app/admin/publications', label: 'Publications' }, { to: '/app/finance', label: 'Finance' }, { to: '/app/knowledge', label: 'Knowledge' }, { to: '/app/presentations', label: 'Presentations' })
 	if (auth.isEd) items.push({ to: '/app/users', label: 'Users' })
 	return items
 })

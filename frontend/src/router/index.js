@@ -25,6 +25,7 @@ const routes = [
       { path: 'payments', name: 'payments', component: () => import('../views/PaymentReview.vue'), meta: { roles: ['super_admin', 'reader_manager'] } },
       { path: 'users', name: 'users', component: () => import('../views/Users.vue'), meta: { roles: ['super_admin', 'ed'] } },
       { path: 'support', name: 'support', component: () => import('../views/Support.vue'), meta: { roles: ['super_admin', 'customer_service'] } },
+      { path: 'presentations', name: 'presentations', component: () => import('../views/Presentations.vue'), meta: { roles: ['super_admin', 'ed', 'meo'] } },
     ],
   },
 ]
