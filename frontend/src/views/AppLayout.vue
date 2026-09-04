@@ -1,6 +1,7 @@
 <template>
 	<div class="min-h-screen bg-slate-100 text-slate-800 md:flex">
-		<aside :style="sidebarStyle" class="text-white md:min-h-screen md:w-72">
+		<div v-if="mobileNavOpen" class="fixed inset-0 z-30 bg-slate-950/50 md:hidden" @click="mobileNavOpen = false"></div>
+		<aside :style="sidebarStyle" :class="mobileNavOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-40 w-[min(84vw,18rem)] text-white shadow-2xl transition-transform duration-300 md:static md:z-auto md:min-h-screen md:w-72 md:translate-x-0 md:shadow-none">
 			<div class="flex items-center justify-between border-b border-white/10 px-5 py-4 md:block md:pb-6 md:pt-7">
 				<div class="flex items-center gap-3 md:block">
 					<div v-if="currentOrgLogo" class="mb-3 flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl bg-white/10 md:mb-3">
@@ -12,7 +13,7 @@
 						<div class="text-[11px] text-slate-300 md:mt-1">{{ auth.user?.name }} · {{ roleLabel }}</div>
 					</div>
 				</div>
-				<button @click="logout" class="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-slate-200 hover:bg-white/5 md:hidden">Sign out</button>
+				<button @click="mobileNavOpen = false" class="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-slate-200 hover:bg-white/5 md:hidden">Close</button>
 			</div>
 
 			<div v-if="auth.isSuperAdmin" class="border-b border-white/10 px-4 py-4">
@@ -24,8 +25,8 @@
 				<div v-if="activeOrganizationName" class="mt-2 text-[11px] text-slate-200">{{ activeOrganizationName }}</div>
 			</div>
 
-			<nav class="flex gap-1 overflow-x-auto p-2 md:flex-col md:gap-2 md:p-4">
-				<RouterLink v-for="item in nav" :key="item.to" :to="item.to" class="whitespace-nowrap rounded-xl px-4 py-3 text-sm font-medium text-slate-200 hover:bg-white/5" active-class="bg-white/10 text-[#d9b15d] ring-1 ring-white/10">
+			<nav class="flex flex-col gap-1 overflow-y-auto p-3 md:gap-2 md:p-4">
+				<RouterLink v-for="item in nav" :key="item.to" :to="item.to" @click="mobileNavOpen = false" class="rounded-xl px-4 py-3 text-sm font-medium text-slate-200 hover:bg-white/5" active-class="bg-white/10 text-[#d9b15d] ring-1 ring-white/10">
 					{{ item.label }}
 				</RouterLink>
 			</nav>
@@ -36,7 +37,8 @@
 			</div>
 		</aside>
 
-		<main class="flex-1 p-4 pb-20 md:p-8 md:pb-10">
+		<main class="min-w-0 flex-1 p-4 pb-10 md:p-8">
+			<button @click="mobileNavOpen = true" class="mb-4 flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm md:hidden"><span class="text-lg leading-none">☰</span> Menu</button>
 			<router-view />
 		</main>
 	</div>
@@ -52,6 +54,7 @@ const auth = useAuthStore()
 const router = useRouter()
 const organizations = ref([])
 const selectedOrgValue = ref(auth.selectedOrganizationId ? String(auth.selectedOrganizationId) : '')
+const mobileNavOpen = ref(false)
 
 const currentOrg = computed(() => organizations.value.find((org) => org.id === auth.selectedOrganizationId) || auth.user?.organization || null)
 const currentOrgLogo = computed(() => currentOrg.value?.logo_url || null)
@@ -91,6 +94,7 @@ function setSelectedOrg(event) {
 	selectedOrgValue.value = value
 }
 watch(() => auth.selectedOrganizationId, (value) => { selectedOrgValue.value = value ? String(value) : '' })
+watch(() => router.currentRoute.value.fullPath, () => { mobileNavOpen.value = false })
 async function logout() { await auth.logout(); router.push({ name: 'login' }) }
 onMounted(loadOrganizations)
 </script>

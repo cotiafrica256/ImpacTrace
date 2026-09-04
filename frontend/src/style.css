@@ -18,8 +18,8 @@ html {
 
 body {
   @apply bg-slate-100 text-slate-800 antialiased;
-  font-family: 'Inter', 'Segoe UI', sans-serif;
-  background: linear-gradient(180deg, #071d2d 0%, #0d1d2d 100%);
+  font-family: 'Avenir Next', 'Segoe UI', sans-serif;
+  background: #f4f7f9;
 }
 
 #app {
@@ -31,7 +31,7 @@ input, textarea, select, button {
 }
 
 input, textarea, select {
-  @apply border border-slate-300 rounded-xl px-3 py-2.5 text-slate-700 bg-white shadow-sm transition focus:outline-none focus:ring-2 focus:ring-sky-200 focus:border-sky-500;
+  @apply min-h-11 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-700 bg-white shadow-sm transition focus:outline-none focus:ring-2 focus:ring-sky-200 focus:border-sky-500;
 }
 
 button {
