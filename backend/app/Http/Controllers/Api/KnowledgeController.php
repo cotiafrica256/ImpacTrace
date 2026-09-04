@@ -23,6 +23,16 @@ class KnowledgeController extends Controller
         return GeographicUnit::with('children')->whereNull('parent_id')->withCount('plans')->orderBy('type')->orderBy('name')->get();
     }
 
+    public function publicPlans()
+    {
+        return DevelopmentPlan::with('geography')->where('status', 'published')->latest()->paginate(12);
+    }
+
+    public function publicIssues()
+    {
+        return AdvocacyIssue::with('geography')->whereIn('status', ['engagement', 'action', 'resolved'])->latest()->paginate(12);
+    }
+
     public function storeGeography(Request $request)
     {
         return GeographicUnit::create($request->validate([

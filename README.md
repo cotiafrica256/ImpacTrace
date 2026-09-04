@@ -118,7 +118,10 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:5173` and log in with one of the accounts above. On the same
+Open `http://localhost:5173` to browse the public data bank, published development
+plans, and advocacy issues without logging in. Readers only need to register/sign in
+when unlocking protected report content. Organisation staff can use the organisation
+login and are taken to the staff workspace under `/app`. On the same
 Wi-Fi network, field officers can open `http://<your-computer's-IP>:5173` on their own
 phones to collect data — camera, signature pad, and voice recorder all work through the
 browser, no app install needed.
@@ -191,7 +194,8 @@ None of these require restructuring what's here — they build on top of it.
 
 ## 9. Public data bank and participation
 
-The platform also includes a public knowledge bank at `/publications`. Published
+The platform also includes a public knowledge bank at `/` (with `/publications` retained
+as a compatibility link). Published
 research is searchable by title, summary, category, and issue. Visitors can read the
 summary, create a reader account, and request either a time-limited reading package or
 a separate download package. Package prices, reading duration, and the different

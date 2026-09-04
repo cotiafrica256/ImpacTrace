@@ -83,6 +83,8 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/public/publications', [PublicPortalController::class, 'index']);
 Route::get('/public/publications/{slug}', [PublicPortalController::class, 'show']);
 Route::get('/public/publications/{slug}/comments', [PublicationCommentController::class, 'index']);
+Route::get('/public/plans', [KnowledgeController::class, 'publicPlans']);
+Route::get('/public/issues', [KnowledgeController::class, 'publicIssues']);
 Route::post('/public/auth/register', [PublicAuthController::class, 'register']);
 Route::post('/public/auth/login', [PublicAuthController::class, 'login']);
 Route::post('/payments/webhook', [PaymentController::class, 'webhook']);

@@ -63,16 +63,16 @@ const activeOrganizationName = computed(() => auth.isSuperAdmin && auth.selected
 const roleLabel = computed(() => ({ super_admin: 'COTIA Platform Admin', ed: 'Executive Director', meo: 'M&E Officer', po: 'Project Officer', fo: 'Field Officer' }[auth.role] || auth.role))
 const nav = computed(() => {
 	if (auth.isSuperAdmin) return [
-		{ to: '/organizations', label: 'Organizations' }, { to: '/projects', label: 'Projects' },
-		{ to: '/users', label: 'Users' }, { to: '/reports', label: 'Reports' },
-		{ to: '/admin/publications', label: 'Publications' }, { to: '/finance', label: 'Finance' }, { to: '/knowledge', label: 'Knowledge' }, { to: '/payments', label: 'Payments' },
+			{ to: '/app/organizations', label: 'Organizations' }, { to: '/app/projects', label: 'Projects' },
+		{ to: '/app/users', label: 'Users' }, { to: '/app/reports', label: 'Reports' },
+		{ to: '/app/admin/publications', label: 'Publications' }, { to: '/app/finance', label: 'Finance' }, { to: '/app/knowledge', label: 'Knowledge' }, { to: '/app/payments', label: 'Payments' },
 	]
 	const items = [
-		{ to: '/', label: 'Dashboard' }, { to: '/projects', label: 'Projects' }, { to: '/submissions', label: 'Data' },
-		{ to: '/attendance', label: 'Attendance' }, { to: '/reports', label: 'Reports' },
+		{ to: '/app', label: 'Dashboard' }, { to: '/app/projects', label: 'Projects' }, { to: '/app/submissions', label: 'Data' },
+		{ to: '/app/attendance', label: 'Attendance' }, { to: '/app/reports', label: 'Reports' },
 	]
-	if (auth.isEd || auth.role === 'meo') items.push({ to: '/admin/publications', label: 'Publications' }, { to: '/finance', label: 'Finance' }, { to: '/knowledge', label: 'Knowledge' })
-	if (auth.isEd) items.push({ to: '/users', label: 'Users' })
+	if (auth.isEd || auth.role === 'meo') items.push({ to: '/app/admin/publications', label: 'Publications' }, { to: '/app/finance', label: 'Finance' }, { to: '/app/knowledge', label: 'Knowledge' })
+	if (auth.isEd) items.push({ to: '/app/users', label: 'Users' })
 	return items
 })
 

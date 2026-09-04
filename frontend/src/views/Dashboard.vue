@@ -42,7 +42,7 @@
       <h2 class="font-medium text-navy-900 mb-2">Your projects</h2>
       <ul class="text-sm divide-y">
         <li v-for="p in projects" :key="p.id" class="py-2 flex justify-between">
-          <RouterLink :to="`/projects/${p.id}`" class="text-navy-800 hover:underline">{{ p.name }}</RouterLink>
+          <RouterLink :to="`/app/projects/${p.id}`" class="text-navy-800 hover:underline">{{ p.name }}</RouterLink>
           <span class="text-slate-400">{{ p.code }}</span>
         </li>
       </ul>

@@ -3,10 +3,12 @@
     <header class="bg-[#0d1d2d] text-white">
       <div class="mx-auto max-w-7xl px-5 py-6 flex items-center justify-between">
         <div><div class="text-xl font-bold">ImpacTrace Data Bank</div><div class="text-xs text-slate-300">Research · Evidence · Participation · Advocacy</div></div>
-        <div class="flex gap-2">
+        <nav class="flex flex-wrap items-center justify-end gap-2">
+          <a href="#plans" class="hidden text-sm text-slate-300 sm:inline">Plans</a>
+          <a href="#issues" class="hidden text-sm text-slate-300 sm:inline">Issues</a>
           <RouterLink to="/login" class="rounded-lg border border-white/20 px-4 py-2 text-sm">Organisation Login</RouterLink>
           <button @click="openAuth('login')" class="rounded-lg bg-[#d9b15d] px-4 py-2 text-sm font-semibold text-[#0d1d2d]">Sign in / Register</button>
-        </div>
+        </nav>
       </div>
     </header>
     <main class="mx-auto max-w-7xl px-5 py-8">
@@ -23,6 +25,16 @@
         </article>
       </div>
       <div v-if="!loading && !items.length" class="rounded-xl border bg-white p-8 text-center text-slate-500">No published reports matched your search.</div>
+      <section id="plans" class="mt-12">
+        <div class="flex items-end justify-between"><div><div class="text-xs font-semibold uppercase tracking-widest text-amber-700">Local planning</div><h2 class="mt-1 text-2xl font-bold text-slate-900">Development plans</h2></div><span class="text-sm text-slate-500">Public records</span></div>
+        <div class="mt-4 grid gap-4 md:grid-cols-3"><article v-for="plan in plans" :key="plan.id" class="rounded-xl border bg-white p-5"><div class="text-xs text-slate-500">{{ plan.geography?.name || 'Community plan' }}</div><h3 class="mt-1 font-semibold">{{ plan.title }}</h3><p class="mt-2 line-clamp-3 text-sm text-slate-600">{{ plan.content || 'Published local development plan.' }}</p></article></div>
+        <div v-if="!plans.length" class="mt-4 rounded-xl border bg-white p-5 text-sm text-slate-500">Published development plans will appear here.</div>
+      </section>
+      <section id="issues" class="mt-12">
+        <div class="flex items-end justify-between"><div><div class="text-xs font-semibold uppercase tracking-widest text-amber-700">Community voice</div><h2 class="mt-1 text-2xl font-bold text-slate-900">Issues in action</h2></div><span class="text-sm text-slate-500">Evidence for change</span></div>
+        <div class="mt-4 grid gap-4 md:grid-cols-3"><article v-for="issue in issues" :key="issue.id" class="rounded-xl border bg-white p-5"><div class="text-xs uppercase text-emerald-700">{{ issue.status.replace('_', ' ') }}</div><h3 class="mt-1 font-semibold">{{ issue.title }}</h3><p class="mt-2 line-clamp-3 text-sm text-slate-600">{{ issue.problem || issue.evidence || 'Community advocacy issue.' }}</p></article></div>
+        <div v-if="!issues.length" class="mt-4 rounded-xl border bg-white p-5 text-sm text-slate-500">Published advocacy issues will appear here.</div>
+      </section>
     </main>
     <div v-if="showRegister" class="fixed inset-0 bg-black/50 grid place-items-center p-5">
       <form @submit.prevent="register" class="w-full max-w-md rounded-2xl bg-white p-6">
@@ -39,10 +51,11 @@
 </template>
 <script setup>
 import {onMounted,ref} from 'vue'; import api from '../api/client'
-const items=ref([]),q=ref(''),loading=ref(false),showRegister=ref(false),authMode=ref('login')
+const items=ref([]),plans=ref([]),issues=ref([]),q=ref(''),loading=ref(false),showRegister=ref(false),authMode=ref('login')
 const form=ref({name:'',email:'',phone:'',password:'',password_confirmation:''})
 function openAuth(mode){authMode.value=mode;showRegister.value=true}
 async function load(){loading.value=true;try{const {data}=await api.get('/public/publications',{params:{q:q.value}});items.value=data.data||data}catch(e){items.value=[]}finally{loading.value=false}}
+async function loadPublicRecords(){const [plansResponse,issuesResponse]=await Promise.all([api.get('/public/plans'),api.get('/public/issues')]);plans.value=plansResponse.data.data||plansResponse.data;issues.value=issuesResponse.data.data||issuesResponse.data}
 async function register(){try{const endpoint=authMode.value === 'login' ? '/public/auth/login' : '/public/auth/register';const {data}=await api.post(endpoint,authMode.value === 'login' ? {email:form.value.email,password:form.value.password}:form.value);localStorage.setItem('public_token',data.token);showRegister.value=false;alert(authMode.value === 'login' ? 'Signed in.' : 'Account created. You can now purchase reading access.')}catch(e){alert(e.response?.data?.message||'Authentication failed')}}
-onMounted(load)
+onMounted(()=>{load();loadPublicRecords()})
 </script>

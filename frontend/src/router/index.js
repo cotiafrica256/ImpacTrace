@@ -2,11 +2,12 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '../store/auth'
 
 const routes = [
-  { path: '/publications', name: 'publications-home', component: () => import('../views/PublicHome.vue'), meta: { public: true } },
+  { path: '/', name: 'public-home', component: () => import('../views/PublicHome.vue'), meta: { public: true } },
+  { path: '/publications', redirect: '/' },
   { path: '/publications/:slug', name: 'public-publication', component: () => import('../views/PublicPublication.vue'), meta: { public: true } },
   { path: '/login', name: 'login', component: () => import('../views/Login.vue'), meta: { guest: true } },
   {
-    path: '/', component: () => import('../views/AppLayout.vue'),
+    path: '/app', component: () => import('../views/AppLayout.vue'),
     children: [
       { path: '', name: 'dashboard', component: () => import('../views/Dashboard.vue') },
       { path: 'organizations', name: 'organizations', component: () => import('../views/Organizations.vue'), meta: { roles: ['super_admin'] } },

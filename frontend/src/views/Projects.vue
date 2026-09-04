@@ -17,7 +17,7 @@
     </div>
 
     <div class="grid md:grid-cols-2 gap-4">
-      <RouterLink v-for="p in projects" :key="p.id" :to="`/projects/${p.id}`"
+      <RouterLink v-for="p in projects" :key="p.id" :to="`/app/projects/${p.id}`"
         class="bg-white rounded-xl p-5 shadow-sm border hover:border-sky-300 hover:shadow-md">
         <div class="flex items-center justify-between gap-3">
           <div class="text-xs uppercase tracking-[0.12em] text-slate-400">{{ p.code }}</div>
