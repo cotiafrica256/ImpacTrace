@@ -99,6 +99,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/public/publications/{slug}/download', [PaymentController::class, 'download']);
     Route::post('/public/publications/{slug}/comments', [PublicationCommentController::class, 'store']);
     Route::get('/finance/summary', [FinanceController::class, 'summary']);
+    Route::get('/finance/transactions', [FinanceController::class, 'transactions']);
+    Route::get('/finance/categories', [FinanceController::class, 'categories']);
+    Route::post('/finance/categories', [FinanceController::class, 'storeCategory'])->middleware('role:super_admin,ed,meo');
+    Route::delete('/finance/categories/{category}', [FinanceController::class, 'destroyCategory'])->middleware('role:super_admin,ed,meo');
     Route::get('/finance/export', [FinanceController::class, 'export']);
     Route::get('/support', [SupportController::class, 'index'])->middleware('role:super_admin,customer_service');
     Route::put('/support/{supportRequest}', [SupportController::class, 'update'])->middleware('role:super_admin,customer_service');
@@ -106,6 +110,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Platform publishing and commercial controls.
     Route::middleware('role:super_admin,ed,meo')->group(function () {
         Route::get('/admin/publications', [PublicationAdminController::class, 'index']);
+        Route::post('/admin/publications/cover', [PublicationAdminController::class, 'uploadCover']);
         Route::post('/admin/publications', [PublicationAdminController::class, 'store']);
         Route::put('/admin/publications/{publication}', [PublicationAdminController::class, 'update']);
         Route::post('/admin/publications/{publication}/packages', [PublicationAdminController::class, 'package']);

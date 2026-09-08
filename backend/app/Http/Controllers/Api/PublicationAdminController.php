@@ -4,8 +4,14 @@ use App\Http\Controllers\Controller;
 use App\Models\{Publication,AccessPackage};
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 class PublicationAdminController extends Controller {
  public function index(){return Publication::with('packages')->latest()->paginate(30);}
+ public function uploadCover(Request $r){
+  $d=$r->validate(['photo'=>'required|image|mimes:jpg,jpeg,png,webp|max:5120']);
+  $path=$d['photo']->store('publication-covers','public');
+  return response()->json(['url'=>Storage::disk('public')->url($path)],201);
+ }
  public function store(Request $r){
     $d=$r->validate(['report_id'=>'nullable|integer|exists:reports,id','title'=>'required|string|max:255','summary'=>'required|string','content'=>'nullable|string','category'=>'nullable|string|max:100','cover_image'=>'required|url|max:2048','youtube_url'=>'nullable|url|max:500','status'=>'in:draft,review']);
     if($r->user()->role!=='super_admin' && !empty($d['report_id'])) abort_unless(\App\Models\Report::whereKey($d['report_id'])->whereHas('project',fn($q)=>$q->where('organization_id',$r->user()->organization_id))->exists(),404);

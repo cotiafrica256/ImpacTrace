@@ -18,6 +18,25 @@ class FinanceController extends Controller {
   $monthly=(clone $q)->select(DB::raw("DATE_FORMAT(transaction_date,'%Y-%m') month"),DB::raw("SUM(CASE WHEN type='income' THEN amount ELSE 0 END) income"),DB::raw("SUM(CASE WHEN type='expense' THEN amount ELSE 0 END) expense"))->groupBy('month')->orderBy('month')->get();
   return ['income'=>(float)$income,'expense'=>(float)$expense,'balance'=>(float)($income-$expense),'by_category'=>$byCategory,'monthly'=>$monthly];
  }
+ public function transactions(Request $r){
+    $org=$this->organizationId($r); abort_if(!$org,422,'Select an organisation first.');
+    $q=FinanceTransaction::where('organization_id',$org)->latest('transaction_date');
+    if($r->filled('q')){$term=$r->string('q');$q->where(fn($x)=>$x->where('description','like',"%{$term}%")->orWhere('category','like',"%{$term}%")->orWhere('reference','like',"%{$term}%"));}
+    return $q->paginate(50);
+ }
+ public function categories(Request $r){
+    $org=$this->organizationId($r); abort_if(!$org,422,'Select an organisation first.');
+    return FinanceCategory::where('organization_id',$org)->orderBy('type')->orderBy('name')->get();
+ }
+ public function storeCategory(Request $r){
+    $org=$this->organizationId($r); abort_if(!$org,422,'Select an organisation first.');
+    $d=$r->validate(['name'=>'required|string|max:100','type'=>'required|in:income,expense']);
+    return response()->json(FinanceCategory::create(['organization_id'=>$org,...$d]),201);
+ }
+ public function destroyCategory(Request $r, FinanceCategory $category){
+    abort_unless((int)$category->organization_id===$this->organizationId($r),404);
+    $category->delete(); return response()->noContent();
+ }
  public function import(Request $r){
     $org=$this->organizationId($r);abort_if(!$org,422,'Select an organisation first.');
     $d=$r->validate(['file'=>'required|file|mimes:csv,txt|max:10240']);
@@ -30,7 +49,7 @@ class FinanceController extends Controller {
       $org=$this->organizationId($r);abort_if(!$org,422,'Select an organisation first.');
       $rows=FinanceTransaction::where('organization_id',$org)->orderBy('transaction_date')->get();
       return response()->streamDownload(function()use($rows){
-         $out=fopen('php://output','w');fputcsv($out,['Date','Type','Account','Category','Project','Reference','Description','Amount','Currency']);
+         $out=fopen('php://output','w');fwrite($out,"\xEF\xBB\xBF");fputcsv($out,['Transaction date','Type','Account','Category','Project code','Reference','Description','Amount','Currency']);
          foreach($rows as $row)fputcsv($out,[$row->transaction_date?->format('Y-m-d'),$row->type,$row->account,$row->category,$row->project_code,$row->reference,$row->description,$row->amount,$row->currency]);
          fclose($out);
       },'finance-transactions.csv',['Content-Type'=>'text/csv']);
