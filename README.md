@@ -118,6 +118,14 @@ credentials and must be changed or removed before production use.
 
 The API now runs at `http://localhost:8000`.
 
+For payments, set `MOMO_MERCHANT_CODE` and `MOMO_USSD_CODE` for the manual mobile
+money option. The checkout screen displays the merchant code and asks only for the
+last five characters of the transaction reference. For the card/mobile-money gateway,
+configure the PesaPal settings in `.env` (`PESAPAL_CONSUMER_KEY`,
+`PESAPAL_CONSUMER_SECRET`, `PESAPAL_CHECKOUT_URL`, and `PESAPAL_IPN_ID`). The app
+does not claim a PesaPal payment succeeded until the provider configuration and
+callback are connected.
+
 ### Frontend
 
 Requires Node.js 18+.

@@ -94,6 +94,7 @@ Route::post('/payments/webhook', [PaymentController::class, 'webhook']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/public/auth/logout', [PublicAuthController::class, 'logout']);
     Route::post('/payments/packages/{package}/initiate', [PaymentController::class, 'initiate']);
+    Route::get('/payments/merchant-details', [PaymentController::class, 'merchantDetails']);
     Route::post('/payments/{payment}/reference', [PaymentController::class, 'submitReference']);
     Route::get('/public/publications/{slug}/access', [PaymentController::class, 'access']);
     Route::get('/public/publications/{slug}/download', [PaymentController::class, 'download']);
@@ -136,6 +137,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/admin/publications/{publication}/publish', [PublicationAdminController::class, 'publish']);
         Route::get('/admin/payments/pending', [PaymentController::class, 'pending']);
         Route::post('/admin/payments/{payment}/verify', [PaymentController::class, 'verify']);
+        Route::get('/admin/payments/access-report', [PaymentController::class, 'accessReport']);
         Route::put('/admin/comments/{comment}', [PublicationCommentController::class, 'moderate']);
     });
 });

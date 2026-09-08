@@ -10,12 +10,17 @@ class PaymentController extends Controller {
   $pkg=$payment->package;
   ReadingAccess::updateOrCreate(['payment_id'=>$payment->id],['public_user_id'=>$payment->public_user_id,'publication_id'=>$pkg->publication_id,'starts_at'=>now(),'expires_at'=>$pkg->type==='reading'?now()->addMinutes((int)$pkg->duration_minutes):null,'can_download'=>$pkg->allows_download]);
  }
+ public function merchantDetails(){
+  return ['merchant_code'=>config('services.momo.merchant_code'),'ussd_code'=>config('services.momo.ussd_code'),'configured'=>(bool)config('services.momo.merchant_code')];
+ }
  public function initiate(Request $r, AccessPackage $package){
-  $r->validate(['phone'=>'required|string|max:30','method'=>'required|in:gateway,momo_manual']);
+  $r->validate(['method'=>'required|in:pesapal,momo_manual']);
   $amount=$r->input('method')==='momo_manual'&&$package->momo_amount_ugx ? $package->momo_amount_ugx : $package->amount_ugx;
-  $p=Payment::create(['public_user_id'=>$r->user()->id,'access_package_id'=>$package->id,'method'=>$r->method,'provider'=>config('services.momo.provider'),'phone'=>$r->phone,'amount_ugx'=>$amount,'status'=>'pending']);
+  $p=Payment::create(['public_user_id'=>$r->user()->id,'access_package_id'=>$package->id,'method'=>$r->method,'provider'=>$r->method==='pesapal'?'pesapal':config('services.momo.provider'),'amount_ugx'=>$amount,'status'=>'pending']);
   if($r->input('method')==='momo_manual') return response()->json(['payment'=>$p,'merchant_code'=>config('services.momo.merchant_code'),'ussd_code'=>config('services.momo.ussd_code'),'instructions'=>'Dial '.config('services.momo.ussd_code').' to pay the displayed amount to the merchant code, then submit the last 5 characters of your transaction reference.']);
-  return response()->json(['payment'=>$p,'message'=>'Payment request created. Connect the configured mobile-money provider to complete the push request.']);
+  $checkout=config('services.pesapal.checkout_url');
+  abort_unless($checkout,503,'PesaPal is not configured yet. Add PESAPAL_CHECKOUT_URL or connect the PesaPal API credentials.');
+  return response()->json(['payment'=>$p,'checkout_url'=>$checkout.'?payment_id='.$p->id,'message'=>'Opening the PesaPal secure checkout.']);
  }
  public function submitReference(Request $r, Payment $payment){
   abort_unless($payment->public_user_id===$r->user()->id && $payment->method==='momo_manual',404);
@@ -40,6 +45,13 @@ class PaymentController extends Controller {
   $query=Payment::with(['user','package.publication'])->where('status','pending');
   if($r->filled('q')){$term=$r->string('q');$query->whereHas('user',fn($q)=>$q->where('name','like',"%{$term}%")->orWhere('email','like',"%{$term}%"))->orWhere('phone','like',"%{$term}%");}
   return $query->latest()->paginate(30);
+ }
+ public function accessReport(Request $r){
+  abort_unless(in_array($r->user()->role, ['super_admin', 'reader_manager'], true),403);
+  $query=ReadingAccess::with(['user','publication','payment'])->latest('starts_at');
+  if($r->input('status')==='active') $query->where(fn($q)=>$q->whereNull('expires_at')->orWhere('expires_at','>',now()));
+  if($r->input('status')==='expired') $query->whereNotNull('expires_at')->where('expires_at','<=',now());
+  return $query->paginate(50);
  }
  public function access(Request $r, string $slug){
   $pub=\App\Models\Publication::where('slug',$slug)->where('status','published')->firstOrFail();

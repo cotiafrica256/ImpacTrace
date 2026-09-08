@@ -6,4 +6,5 @@ class Payment extends Model {
  protected $casts=['provider_payload'=>'array','paid_at'=>'datetime'];
  public function user(){return $this->belongsTo(PublicUser::class,'public_user_id');}
  public function package(){return $this->belongsTo(AccessPackage::class,'access_package_id');}
+ public function access(){return $this->hasOne(ReadingAccess::class,'payment_id');}
 }
