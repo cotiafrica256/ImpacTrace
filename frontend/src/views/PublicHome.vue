@@ -1,9 +1,9 @@
 <template>
   <div class="min-h-screen bg-[#eef5f1]">
     <header class="bg-[#123f31] text-white shadow-lg shadow-emerald-950/10">
-      <div class="mx-auto max-w-7xl px-5 py-6 flex items-center justify-between">
+      <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-6">
         <div><div class="text-xl font-bold">ImpacTrace Data Bank</div><div class="text-xs text-slate-300">Research · Evidence · Participation · Advocacy</div></div>
-        <nav class="flex flex-wrap items-center justify-end gap-2">
+        <nav class="flex w-full flex-wrap items-center justify-start gap-2 sm:w-auto sm:justify-end">
           <a href="#plans" class="hidden text-sm text-slate-300 sm:inline">Plans</a>
           <a href="#issues" class="hidden text-sm text-slate-300 sm:inline">Issues</a>
           <a href="https://www.youtube.com/results?search_query=CodeToInnovate+Africa" target="_blank" rel="noopener noreferrer" class="rounded-lg border border-red-300/40 px-4 py-2 text-sm text-red-100">Watch YouTube</a>
@@ -16,7 +16,7 @@
       <div class="mb-8 rounded-2xl border border-emerald-100 bg-[#f9fcfa] p-6 shadow-sm sm:p-8">
         <p class="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">COTIA knowledge bank</p><h1 class="mt-2 text-3xl font-bold text-slate-900">Research and evidence you can use</h1>
         <p class="mt-2 max-w-3xl text-slate-600">Explore published research, surveys, district development plans, community evidence and advocacy issues. Read the public summary, then unlock the full report when needed.</p>
-        <div class="mt-5 flex gap-2"><input v-model="q" @keyup.enter="load" placeholder="Search reports, issues, districts..." class="flex-1 rounded-xl border px-4 py-3"/><button @click="load" class="rounded-xl bg-[#0d1d2d] px-5 text-white">Search</button></div>
+        <div class="mt-5 flex flex-col gap-2 sm:flex-row"><input v-model="q" @keyup.enter="load" placeholder="Search reports, issues, districts..." class="min-w-0 flex-1 rounded-xl border px-4 py-3"/><button @click="load" class="rounded-xl bg-[#0d1d2d] px-5 py-3 text-white">Search</button></div>
       </div>
       <div v-if="loading" class="text-slate-500">Loading publications…</div>
       <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -50,9 +50,9 @@
         <button type="button" @click="authMode=authMode === 'login' ? 'register' : 'login'" class="mt-3 text-sm text-[#0d1d2d] underline">{{ authMode === 'login' ? 'Create a reader account' : 'I already have an account' }}</button>
       </form>
     </div>
-    <div class="fixed bottom-5 right-5 z-30 flex flex-col gap-3" aria-label="Social contacts">
-      <a href="https://wa.me/256774443132" target="_blank" rel="noopener noreferrer" aria-label="Chat with COTIA on WhatsApp" title="Chat on WhatsApp" class="grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-2xl font-bold text-white shadow-lg shadow-emerald-950/20 ring-4 ring-white/80 transition hover:scale-105">WA</a>
-      <a href="https://x.com/CodetoinnovateA" target="_blank" rel="noopener noreferrer" aria-label="Follow CodeToInnovate Africa on X" title="Follow us on X" class="grid h-14 w-14 place-items-center rounded-full bg-black text-xl font-bold text-white shadow-lg shadow-slate-900/20 ring-4 ring-white/80 transition hover:scale-105">X</a>
+    <div class="fixed bottom-4 right-4 z-30 flex flex-col gap-3 sm:bottom-5 sm:right-5" aria-label="Social contacts">
+      <a href="https://wa.me/256774443132" target="_blank" rel="noopener noreferrer" aria-label="Chat with COTIA on WhatsApp" title="Chat on WhatsApp" class="grid h-12 w-12 place-items-center rounded-full bg-[#25D366] text-white shadow-lg shadow-emerald-950/20 ring-4 ring-white/80 transition hover:scale-105 sm:h-14 sm:w-14"><svg viewBox="0 0 24 24" class="h-7 w-7 fill-current sm:h-8 sm:w-8" aria-hidden="true"><path d="M20.52 3.48A11.82 11.82 0 0 0 12.06 0C5.52 0 .2 5.32.2 11.86c0 2.09.55 4.13 1.59 5.93L.1 24l6.35-1.66a11.84 11.84 0 0 0 5.61 1.43h.01c6.54 0 11.86-5.32 11.86-11.86 0-3.17-1.24-6.15-3.41-8.43Zm-8.46 18.26h-.01a9.85 9.85 0 0 1-5.03-1.38l-.36-.21-3.77.99 1.01-3.67-.23-.38a9.84 9.84 0 0 1-1.51-5.23C2.16 6.43 6.59 2 12.06 2c2.65 0 5.14 1.03 7.01 2.91a9.84 9.84 0 0 1 2.9 7.01c0 5.47-4.43 9.82-9.91 9.82Zm5.41-7.37c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.21 5.09 4.5.71.31 1.26.5 1.69.64.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35Z"/></svg></a>
+      <a href="https://x.com/CodetoinnovateA" target="_blank" rel="noopener noreferrer" aria-label="Follow CodeToInnovate Africa on X" title="Follow us on X" class="grid h-12 w-12 place-items-center rounded-full bg-black text-xl font-bold text-white shadow-lg shadow-slate-900/20 ring-4 ring-white/80 transition hover:scale-105 sm:h-14 sm:w-14">X</a>
     </div>
   </div>
 </template>
