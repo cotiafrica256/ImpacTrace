@@ -60,7 +60,7 @@ async function submit() {
     const payload = mode.value === 'register' ? form.value : { email: form.value.email, password: form.value.password }
     const { data } = await api.post(endpoint, payload)
     localStorage.setItem('public_token', data.token)
-    if (route.query.redirect) router.push(route.query.redirect)
+    if (route.query.redirect) router.push({ path: route.query.redirect, query: route.query.package ? { package: route.query.package } : undefined })
     else router.push('/')
   } catch (requestError) {
     const errors = requestError.response?.data?.errors
