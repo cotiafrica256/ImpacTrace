@@ -43,7 +43,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import api from '../api/client'
+import publicApi from '../api/publicClient'
 
 const route = useRoute()
 const router = useRouter()
@@ -58,7 +58,7 @@ async function submit() {
   try {
     const endpoint = mode.value === 'register' ? '/public/auth/register' : '/public/auth/login'
     const payload = mode.value === 'register' ? form.value : { email: form.value.email, password: form.value.password }
-    const { data } = await api.post(endpoint, payload)
+    const { data } = await publicApi.post(endpoint, payload)
     localStorage.setItem('public_token', data.token)
     if (route.query.redirect) router.push({ path: route.query.redirect, query: route.query.package ? { package: route.query.package } : undefined })
     else router.push('/')

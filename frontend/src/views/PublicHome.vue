@@ -57,13 +57,13 @@
   </div>
 </template>
 <script setup>
-import {onMounted,ref} from 'vue'; import api from '../api/client'
+import {onMounted,ref} from 'vue'; import publicApi from '../api/publicClient'
 const items=ref([]),plans=ref([]),issues=ref([]),q=ref(''),loading=ref(false),showRegister=ref(false),authMode=ref('login')
 const form=ref({name:'',email:'',phone:'',password:'',password_confirmation:''}),support=ref({name:'',email:'',subject:'',message:''}),supportMessage=ref('')
 function openAuth(mode){authMode.value=mode;showRegister.value=true}
-async function load(){loading.value=true;try{const {data}=await api.get('/public/publications',{params:{q:q.value}});items.value=data.data||data}catch(e){items.value=[]}finally{loading.value=false}}
-async function loadPublicRecords(){const [plansResponse,issuesResponse]=await Promise.all([api.get('/public/plans'),api.get('/public/issues')]);plans.value=plansResponse.data.data||plansResponse.data;issues.value=issuesResponse.data.data||issuesResponse.data}
-async function register(){try{const endpoint=authMode.value === 'login' ? '/public/auth/login' : '/public/auth/register';const payload=authMode.value === 'login' ? {email:form.value.email,password:form.value.password}:form.value;const {data}=await api.post(endpoint,payload);localStorage.setItem('public_token',data.token);showRegister.value=false;alert(authMode.value === 'login' ? 'Signed in.' : 'Account created. You can now purchase reading access.')}catch(e){const errors=e.response?.data?.errors;const detail=errors ? Object.values(errors).flat().join(' ') : e.response?.data?.message;alert(detail||'Authentication failed. Check your email and password, or create a reader account.')}}
-async function sendSupport(){try{await api.post('/public/support',support.value);supportMessage.value='Message sent. Our support team will respond shortly.';support.value={name:'',email:'',subject:'',message:''}}catch(e){supportMessage.value=e.response?.data?.message||'We could not send your message.'}}
+async function load(){loading.value=true;try{const {data}=await publicApi.get('/public/publications',{params:{q:q.value}});items.value=data.data||data}catch(e){items.value=[]}finally{loading.value=false}}
+async function loadPublicRecords(){const [plansResponse,issuesResponse]=await Promise.all([publicApi.get('/public/plans'),publicApi.get('/public/issues')]);plans.value=plansResponse.data.data||plansResponse.data;issues.value=issuesResponse.data.data||issuesResponse.data}
+async function register(){try{const endpoint=authMode.value === 'login' ? '/public/auth/login' : '/public/auth/register';const payload=authMode.value === 'login' ? {email:form.value.email,password:form.value.password}:form.value;const {data}=await publicApi.post(endpoint,payload);localStorage.setItem('public_token',data.token);showRegister.value=false;alert(authMode.value === 'login' ? 'Signed in.' : 'Account created. You can now purchase reading access.')}catch(e){const errors=e.response?.data?.errors;const detail=errors ? Object.values(errors).flat().join(' ') : e.response?.data?.message;alert(detail||'Authentication failed. Check your email and password, or create a reader account.')}}
+async function sendSupport(){try{await publicApi.post('/public/support',support.value);supportMessage.value='Message sent. Our support team will respond shortly.';support.value={name:'',email:'',subject:'',message:''}}catch(e){supportMessage.value=e.response?.data?.message||'We could not send your message.'}}
 onMounted(()=>{load();loadPublicRecords()})
 </script>
