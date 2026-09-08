@@ -25,6 +25,8 @@ class PaymentController extends Controller {
  public function submitReference(Request $r, Payment $payment){
   abort_unless($payment->public_user_id===$r->user()->id && $payment->method==='momo_manual',404);
   $d=$r->validate(['last5_reference'=>'required|string|min:5|max:5']);
+  $duplicate=Payment::where('method','momo_manual')->where('last5_reference',strtoupper($d['last5_reference']))->whereIn('status',['pending','paid'])->where('id','<>',$payment->id)->exists();
+  abort_if($duplicate,422,'This transaction reference has already been submitted. Check the last five digits and contact support if you made a new payment.');
   $payment->update(['last5_reference'=>strtoupper($d['last5_reference'])]);
   return ['payment'=>$payment,'status'=>'pending_verification'];
  }
