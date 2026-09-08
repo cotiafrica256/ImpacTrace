@@ -94,6 +94,10 @@ php artisan db:seed
 php artisan serve
 ```
 
+The seeder is safe to run more than once. It creates repeatable demo data for the
+dashboard, submissions, reports, public publications, finance categories, and finance
+transactions. Run `php artisan migrate` first so the finance category table exists.
+
 `db:seed` creates COTIA's platform admin account, plus one demo client organisation
 (MECPA Uganda) with its own ED/M&E/PO/FO users and the full MECPA project already
 loaded. Change all of these passwords immediately.
@@ -105,6 +109,12 @@ loaded. Change all of these passwords immediately.
 | MECPA Uganda (org) | M&E Officer | meo@mecpa.org | ChangeMe!2026 |
 | MECPA Uganda (org) | Project Officer | po@mecpa.org | ChangeMe!2026 |
 | MECPA Uganda (org) | Field Officer | fo@mecpa.org | ChangeMe!2026 |
+| Public data bank | Demo reader | reader.demo@example.com | ReaderDemo!2026 |
+
+The seeded MECPA account includes five household submissions, one approved report, a
+published publication with a cover image, a draft publication for testing search and
+publishing, four finance categories, and eight finance transactions. These are demo
+credentials and must be changed or removed before production use.
 
 The API now runs at `http://localhost:8000`.
 

@@ -15,6 +15,10 @@ use App\Models\AdvocacyIssue;
 use App\Models\Publication;
 use App\Models\AccessPackage;
 use App\Models\User;
+use App\Models\FinanceCategory;
+use App\Models\FinanceImport;
+use App\Models\FinanceTransaction;
+use App\Models\PublicUser;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -114,6 +118,38 @@ class DatabaseSeeder extends Seeder
             // Sync officers to project
             $project->officers()->syncWithoutDetaching([$meo->id, $po->id, $fo->id]);
 
+            $financeImport = FinanceImport::updateOrCreate(
+                ['organization_id' => $organization->id, 'source' => 'demo-seed'],
+                ['uploaded_by' => $superAdmin->id, 'rows_imported' => 8, 'status' => 'processed']
+            );
+            foreach ([
+                ['name' => 'Staff and consultants', 'type' => 'expense'],
+                ['name' => 'Transport and field visits', 'type' => 'expense'],
+                ['name' => 'Community meetings', 'type' => 'expense'],
+                ['name' => 'Grant income', 'type' => 'income'],
+            ] as $category) {
+                FinanceCategory::updateOrCreate(
+                    ['organization_id' => $organization->id, 'name' => $category['name'], 'type' => $category['type']],
+                    []
+                );
+            }
+            foreach ([
+                ['date' => '2026-08-01', 'type' => 'income', 'category' => 'Grant income', 'description' => 'Climate resilience project instalment', 'reference' => 'GRANT-2026-01', 'amount' => 18500000],
+                ['date' => '2026-08-05', 'type' => 'expense', 'category' => 'Staff and consultants', 'description' => 'Field team August allowances', 'reference' => 'PAY-2026-08', 'amount' => 3200000],
+                ['date' => '2026-08-08', 'type' => 'expense', 'category' => 'Transport and field visits', 'description' => 'Gulu and Awach field transport', 'reference' => 'TRN-2026-08-01', 'amount' => 850000],
+                ['date' => '2026-08-12', 'type' => 'expense', 'category' => 'Community meetings', 'description' => 'Community validation meeting', 'reference' => 'MTG-2026-08-01', 'amount' => 475000],
+                ['date' => '2026-08-16', 'type' => 'expense', 'category' => 'Transport and field visits', 'description' => 'Motorcycle hire for village follow-up', 'reference' => 'TRN-2026-08-02', 'amount' => 290000],
+                ['date' => '2026-08-20', 'type' => 'expense', 'category' => 'Staff and consultants', 'description' => 'Data quality review support', 'reference' => 'PAY-2026-09', 'amount' => 600000],
+                ['date' => '2026-08-24', 'type' => 'expense', 'category' => 'Community meetings', 'description' => 'Parish feedback session', 'reference' => 'MTG-2026-08-02', 'amount' => 225000],
+                ['date' => '2026-08-29', 'type' => 'expense', 'category' => 'Transport and field visits', 'description' => 'Submission verification travel', 'reference' => 'TRN-2026-08-03', 'amount' => 180000],
+            ] as $transaction) {
+                FinanceTransaction::updateOrCreate(
+                    ['organization_id' => $organization->id, 'reference' => $transaction['reference']],
+                    ['finance_import_id' => $financeImport->id, 'transaction_date' => $transaction['date'], 'type' => $transaction['type'], 'account' => 'MECPA project account', 'category' => $transaction['category'], 'project_code' => $project->code, 'description' => $transaction['description'], 'amount' => $transaction['amount'], 'currency' => 'UGX']
+                );
+            }
+            $this->command->info('✓ Demo finance categories and transactions');
+
             // Load and create form schema
             $schemaPath = __DIR__.'/mecpa_form_schema.json';
             if (file_exists($schemaPath)) {
@@ -180,9 +216,13 @@ class DatabaseSeeder extends Seeder
                 $parish = GeographicUnit::updateOrCreate(['code' => 'PALARO'], ['parent_id' => $district->id, 'type' => 'parish', 'name' => 'Palaro Parish']);
                 DevelopmentPlan::updateOrCreate(['geographic_unit_id' => $district->id, 'title' => 'Gulu District Climate Resilience Plan'], ['year_from' => 2026, 'year_to' => 2030, 'content' => 'A practical plan for climate-smart livelihoods, water access, and women-led adaptation initiatives.', 'status' => 'published', 'created_by' => $ed->id]);
                 AdvocacyIssue::updateOrCreate(['organization_id' => $organization->id, 'title' => 'Reliable water points for climate-vulnerable households'], ['project_id' => $project->id, 'geographic_unit_id' => $parish->id, 'problem' => 'Dry-season water access increases household workload and reduces time for livelihoods.', 'evidence' => 'Four of five demo households reported longer water collection times during the dry season.', 'community_voices' => 'Women requested repaired boreholes and transparent maintenance schedules.', 'recommendations' => 'Prioritise two borehole repairs and establish parish maintenance committees.', 'target_decision_maker' => 'Gulu District Local Government', 'status' => 'engagement']);
-                $publication = Publication::updateOrCreate(['slug' => 'household-climate-vulnerability-brief-2026'], ['report_id' => $report->id, 'title' => 'Household Climate Vulnerability Brief 2026', 'summary' => 'Early evidence from Gulu households shows where climate resilience support can have the greatest effect.', 'content' => 'This demonstration brief summarises five household assessments and highlights practical priorities for local partners.', 'cover_image' => null, 'youtube_url' => 'https://www.youtube.com/results?search_query=CodeToInnovate+Africa+climate+resilience', 'category' => 'Climate resilience', 'status' => 'published', 'is_featured' => true, 'published_by' => $ed->id, 'published_at' => '2026-09-01 09:00:00']);
+                $publication = Publication::updateOrCreate(['slug' => 'household-climate-vulnerability-brief-2026'], ['report_id' => $report->id, 'title' => 'Household Climate Vulnerability Brief 2026', 'summary' => 'Early evidence from Gulu households shows where climate resilience support can have the greatest effect.', 'content' => 'This demonstration brief summarises five household assessments and highlights practical priorities for local partners.', 'cover_image' => 'https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1200&q=80', 'youtube_url' => 'https://www.youtube.com/results?search_query=CodeToInnovate+Africa+climate+resilience', 'category' => 'Climate resilience', 'status' => 'published', 'is_featured' => true, 'published_by' => $ed->id, 'published_at' => '2026-09-01 09:00:00']);
                 AccessPackage::updateOrCreate(['publication_id' => $publication->id, 'type' => 'reading', 'name' => '7-day reading access'], ['duration_minutes' => 10080, 'amount_ugx' => 5000, 'momo_amount_ugx' => 5000, 'allows_download' => false, 'is_active' => true]);
                 AccessPackage::updateOrCreate(['publication_id' => $publication->id, 'type' => 'download', 'name' => 'Report download'], ['duration_minutes' => null, 'amount_ugx' => 15000, 'momo_amount_ugx' => 15000, 'allows_download' => true, 'is_active' => true]);
+                $secondPublication = Publication::updateOrCreate(['slug' => 'women-led-adaptation-actions'], ['report_id' => $report->id, 'title' => 'Women-led Adaptation Actions', 'summary' => 'Practical community actions identified by women leaders during the Gulu assessment cycle.', 'content' => 'A demo publication for testing search, cover photos, publication cards and paid access.', 'cover_image' => 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=1200&q=80', 'youtube_url' => null, 'category' => 'Community evidence', 'status' => 'draft', 'is_featured' => false, 'published_by' => null, 'published_at' => null]);
+                AccessPackage::updateOrCreate(['publication_id' => $secondPublication->id, 'type' => 'reading', 'name' => '30-day reading access'], ['duration_minutes' => 43200, 'amount_ugx' => 7500, 'momo_amount_ugx' => 7500, 'allows_download' => false, 'is_active' => true]);
+                PublicUser::updateOrCreate(['email' => 'reader.demo@example.com'], ['name' => 'Demo Reader', 'phone' => '0700000099', 'password' => Hash::make('ReaderDemo!2026'), 'is_active' => true]);
+                $this->command->info('✓ Demo publications, packages, and reader account');
                 $this->command->info('✓ Demo respondents, submissions, report, and public records');
             } else {
                 $this->command->warn('⚠ Form schema file not found, skipping form creation');
