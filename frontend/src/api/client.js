@@ -20,6 +20,11 @@ api.interceptors.response.use(
   (res) => res,
   (err) => {
     if (err.response?.status === 401) {
+      const isPublicRequest = String(err.config?.url || '').startsWith('/public/')
+      if (isPublicRequest) {
+        localStorage.removeItem('public_token')
+        return Promise.reject(err)
+      }
       localStorage.removeItem('meal_token')
       localStorage.removeItem('meal_user')
       window.location.href = '/login'
