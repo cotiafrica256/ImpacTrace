@@ -3,6 +3,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\FinanceTransaction;
 use App\Models\FinanceImport;
+use App\Models\FinanceCategory;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 class FinanceController extends Controller {
@@ -16,7 +18,10 @@ class FinanceController extends Controller {
   $income=(clone $q)->where('type','income')->sum('amount');$expense=(clone $q)->where('type','expense')->sum('amount');
   $byCategory=(clone $q)->where('type','expense')->select('category',DB::raw('SUM(amount) total'))->groupBy('category')->orderByDesc('total')->get();
   $monthly=(clone $q)->select(DB::raw("DATE_FORMAT(transaction_date,'%Y-%m') month"),DB::raw("SUM(CASE WHEN type='income' THEN amount ELSE 0 END) income"),DB::raw("SUM(CASE WHEN type='expense' THEN amount ELSE 0 END) expense"))->groupBy('month')->orderBy('month')->get();
-  return ['income'=>(float)$income,'expense'=>(float)$expense,'balance'=>(float)($income-$expense),'by_category'=>$byCategory,'monthly'=>$monthly];
+   $paymentScope=Payment::whereHas('package.publication.report.project',fn($query)=>$query->where('organization_id',$org));
+   $payments=(clone $paymentScope)->where('status','paid')->with('package.publication')->latest('paid_at')->get();
+   $paymentByMethod=$payments->groupBy('method')->map(fn($items)=>['count'=>$items->count(),'total'=>(float)$items->sum('amount_ugx')]);
+   return ['income'=>(float)$income,'expense'=>(float)$expense,'balance'=>(float)($income-$expense),'by_category'=>$byCategory,'monthly'=>$monthly,'payment_revenue'=>['paid_count'=>$payments->count(),'paid_total'=>(float)$payments->sum('amount_ugx'),'pending_count'=>(clone $paymentScope)->where('status','pending')->count(),'rejected_count'=>(clone $paymentScope)->where('status','rejected')->count(),'by_method'=>$paymentByMethod,'recent'=>$payments->take(20)->values()]];
  }
  public function transactions(Request $r){
     $org=$this->organizationId($r); abort_if(!$org,422,'Select an organisation first.');
