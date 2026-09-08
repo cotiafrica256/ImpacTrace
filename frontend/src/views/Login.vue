@@ -26,7 +26,7 @@
 
       <div class="mt-6 text-center">
         <RouterLink to="/" class="text-sm font-medium text-[#0d1d2d] underline underline-offset-4">
-          Browse the public Data Bank
+          Browse the Knowledge Hub
         </RouterLink>
       </div>
     </div>

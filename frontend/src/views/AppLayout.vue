@@ -63,7 +63,7 @@ const sidebarStyle = computed(() => ({ background: `linear-gradient(180deg, ${cu
 const activeOrganizationName = computed(() => auth.isSuperAdmin && auth.selectedOrganizationId
 	? organizations.value.find((org) => org.id === auth.selectedOrganizationId)?.name || null
 	: auth.user?.organization?.name || null)
-const roleLabel = computed(() => ({ super_admin: 'COTIA Platform Admin', ed: 'Executive Director', meo: 'M&E Officer', po: 'Project Officer', fo: 'Field Officer', customer_service: 'Customer Service', reader_manager: 'Reader Manager' }[auth.role] || auth.role))
+const roleLabel = computed(() => ({ super_admin: 'ImpacTrace Platform Admin', ed: 'Executive Director', meo: 'M&E Officer', po: 'Project Officer', fo: 'Field Officer', customer_service: 'Customer Service', reader_manager: 'Reader Manager' }[auth.role] || auth.role))
 const nav = computed(() => {
 	if (auth.isSuperAdmin) return [
 			{ to: '/app/organizations', label: 'Organizations' }, { to: '/app/projects', label: 'Projects' },

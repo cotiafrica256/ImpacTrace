@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-[#eef5f1]">
-    <header class="bg-[#123f31] p-5 text-white shadow-lg"><div class="mx-auto max-w-4xl"><RouterLink to="/" class="font-semibold">← Data Bank</RouterLink></div></header>
+    <header class="bg-[#123f31] p-5 text-white shadow-lg"><div class="mx-auto max-w-4xl"><RouterLink to="/" class="font-semibold">← Knowledge Hub</RouterLink></div></header>
     <main class="mx-auto max-w-4xl px-4 py-8 sm:px-5">
       <div v-if="pub">
         <div class="text-xs font-semibold uppercase tracking-[0.16em] text-teal-700">{{ pub.category || 'Research' }}</div>

@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-[#123f31] px-4 py-10 sm:py-16">
     <main class="mx-auto max-w-md rounded-3xl bg-[#f4faf6] p-6 shadow-2xl sm:p-9">
-      <RouterLink to="/" class="text-sm font-semibold text-teal-700">← Back to Data Bank</RouterLink>
+      <RouterLink to="/" class="text-sm font-semibold text-teal-700">← Back to Knowledge Hub</RouterLink>
       <div class="mt-8">
         <p class="text-xs font-semibold uppercase tracking-[0.18em] text-amber-700">Reader access</p>
         <h1 class="mt-2 text-3xl font-semibold tracking-tight text-slate-900">Register or sign in</h1>

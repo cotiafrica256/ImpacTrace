@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-[#eef5f1]">
     <header class="bg-[#123f31] text-white shadow-lg shadow-emerald-950/10">
       <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-6">
-        <div><div class="text-xl font-bold">ImpacTrace Data Bank</div><div class="text-xs text-slate-300">Research · Evidence · Participation · Advocacy</div></div>
+        <div><div class="text-xl font-bold">ImpacTrace Knowledge Hub</div><div class="text-xs text-slate-300">Research · Evidence · Participation · Advocacy</div></div>
         <nav class="flex w-full flex-wrap items-center justify-start gap-2 sm:w-auto sm:justify-end">
           <a href="#plans" class="hidden text-sm text-slate-300 sm:inline">Plans</a>
           <a href="#issues" class="hidden text-sm text-slate-300 sm:inline">Issues</a>
@@ -14,7 +14,7 @@
     </header>
     <main class="mx-auto max-w-7xl px-5 py-8">
       <div class="mb-8 rounded-2xl border border-emerald-100 bg-[#f9fcfa] p-6 shadow-sm sm:p-8">
-        <p class="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">COTIA knowledge bank</p><h1 class="mt-2 text-3xl font-bold text-slate-900">Research and evidence you can use</h1>
+        <p class="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">ImpacTrace Knowledge Hub</p><h1 class="mt-2 text-3xl font-bold text-slate-900">Research and evidence you can use</h1>
         <p class="mt-2 max-w-3xl text-slate-600">Explore published research, surveys, district development plans, community evidence and advocacy issues. Read the public summary, then unlock the full report when needed.</p>
         <div class="mt-5 flex flex-col gap-2 sm:flex-row"><input v-model="q" @keyup.enter="load" placeholder="Search reports, issues, districts..." class="min-w-0 flex-1 rounded-xl border px-4 py-3"/><button @click="load" class="rounded-xl bg-[#0d1d2d] px-5 py-3 text-white">Search</button></div>
       </div>
@@ -41,7 +41,7 @@
     </main>
     <div v-if="showRegister" class="fixed inset-0 bg-black/50 grid place-items-center p-5">
       <form @submit.prevent="register" class="w-full max-w-md rounded-2xl bg-white p-6">
-        <h2 class="text-xl font-semibold">{{ authMode === 'login' ? 'Sign in to Data Bank' : 'Create reader account' }}</h2><input v-if="authMode === 'register'" v-model="form.name" required placeholder="Name" class="mt-4 w-full rounded-lg border p-3"/>
+        <h2 class="text-xl font-semibold">{{ authMode === 'login' ? 'Sign in to Knowledge Hub' : 'Create reader account' }}</h2><input v-if="authMode === 'register'" v-model="form.name" required placeholder="Name" class="mt-4 w-full rounded-lg border p-3"/>
         <input v-model="form.email" type="email" required placeholder="Email" class="mt-3 w-full rounded-lg border p-3"/>
         <input v-model="form.phone" placeholder="Phone" class="mt-3 w-full rounded-lg border p-3"/>
         <input v-model="form.password" type="password" required minlength="8" placeholder="Password" class="mt-3 w-full rounded-lg border p-3"/>
