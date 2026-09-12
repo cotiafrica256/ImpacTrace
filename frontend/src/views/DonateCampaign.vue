@@ -11,9 +11,10 @@
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import publicApi from '../api/publicClient'
+import { demoCampaign } from '../api/demoData'
 const route = useRoute(), campaign = ref(null), loading = ref(false), manual = ref(null), message = ref(''), error = ref('')
 const form = ref({ donor_name: '', donor_email: '', donor_phone: '', amount_ugx: 5000, method: 'momo_manual' })
-async function load() { try { const { data } = await publicApi.get(`/public/fundraisers/${route.params.slug}`); campaign.value = data } catch { error.value = 'This fundraiser is not available.' } }
+async function load() { try { const { data } = await publicApi.get(`/public/fundraisers/${route.params.slug}`); campaign.value = data } catch { campaign.value = route.params.slug === demoCampaign.slug ? demoCampaign : null; error.value = campaign.value ? '' : 'This fundraiser is not available.' } }
 async function donate() { loading.value = true; manual.value = null; message.value = ''; error.value = ''; try { const { data } = await publicApi.post(`/public/fundraisers/${route.params.slug}/donate`, form.value); if (data.checkout_url) window.location.href = data.checkout_url; else manual.value = data } catch (e) { error.value = e.response?.data?.message || 'Could not start the donation.' } finally { loading.value = false } }
 onMounted(load)
 </script>

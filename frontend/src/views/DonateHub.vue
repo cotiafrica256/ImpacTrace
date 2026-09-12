@@ -7,7 +7,8 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import publicApi from '../api/publicClient'
+import { demoCampaigns } from '../api/demoData'
 const campaigns = ref([]), loading = ref(true)
-async function load() { try { const { data } = await publicApi.get('/public/fundraisers'); campaigns.value = data.data || data } finally { loading.value = false } }
+async function load() { try { const { data } = await publicApi.get('/public/fundraisers'); campaigns.value = data.data || data } catch { campaigns.value = demoCampaigns } finally { loading.value = false } }
 onMounted(load)
 </script>
