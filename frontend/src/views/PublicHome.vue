@@ -4,7 +4,7 @@
       <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-6">
         <div><div class="text-xl font-bold">ImpacTrace Knowledge Hub</div><div class="text-xs text-slate-300">Research · Evidence · Participation · Advocacy</div></div>
         <nav class="flex w-full flex-wrap items-center justify-start gap-2 sm:w-auto sm:justify-end">
-          <a href="#plans" class="hidden text-sm text-slate-300 sm:inline">Plans</a>
+          <RouterLink to="/donate" class="rounded-xl bg-[#e5c56b] px-5 py-3 text-sm font-bold text-[#123f31] shadow-sm transition hover:bg-[#f1d987]">Donate</RouterLink><a href="#plans" class="hidden text-sm text-slate-300 sm:inline">Plans</a>
           <a href="#issues" class="hidden text-sm text-slate-300 sm:inline">Issues</a>
           <a href="https://www.youtube.com/results?search_query=CodeToInnovate+Africa" target="_blank" rel="noopener noreferrer" class="rounded-lg border border-red-300/40 px-4 py-2 text-sm text-red-100">Watch YouTube</a>
           <RouterLink to="/login" class="rounded-lg border border-white/20 px-4 py-2 text-sm">Organisation Login</RouterLink>
@@ -26,6 +26,7 @@
         </article>
       </div>
       <div v-if="!loading && !items.length" class="rounded-xl border bg-white p-8 text-center text-slate-500">No published reports matched your search.</div>
+      <section v-if="fundraisers.length" id="fundraisers" class="mt-10 rounded-2xl border border-amber-100 bg-[#fffdf6] p-5 sm:p-7"><div class="flex items-end justify-between gap-4"><div><div class="text-xs font-semibold uppercase tracking-widest text-amber-700">Support local action</div><h2 class="mt-1 text-2xl font-bold text-slate-900">Donate to a cause</h2></div><span class="text-sm text-slate-500">Every contribution counts</span></div><div class="mt-5 grid gap-4 md:grid-cols-3"><article v-for="campaign in fundraisers" :key="campaign.id" class="overflow-hidden rounded-xl border border-amber-100 bg-white"><img v-if="campaign.photo_url" :src="campaign.photo_url" :alt="campaign.title" class="h-36 w-full object-cover" /><div class="p-4"><div class="text-xs text-emerald-700">{{ campaign.organization?.name }}</div><h3 class="mt-1 font-semibold">{{ campaign.title }}</h3><p class="mt-2 line-clamp-3 text-sm text-slate-600">{{ campaign.summary }}</p><RouterLink :to="`/donate/${campaign.slug}`" class="mt-4 inline-block rounded-lg bg-[#176b4d] px-3 py-2 text-sm font-semibold text-white">Donate</RouterLink></div></article></div></section>
       <section v-if="items.some((item) => item.youtube_url)" class="mt-10 rounded-2xl bg-[#0d1d2d] p-6 text-white shadow-sm"><div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between"><div><div class="text-xs font-semibold uppercase tracking-widest text-red-200">Free viewing</div><h2 class="mt-1 text-2xl font-bold">Watch our work on YouTube</h2><p class="mt-2 text-sm text-slate-300">Research stories and community voices are free to watch. Every view helps the work reach further.</p></div><a href="https://www.youtube.com/results?search_query=CodeToInnovate+Africa" target="_blank" rel="noopener noreferrer" class="font-semibold text-red-200">Open channel ↗</a></div><div class="mt-5 grid gap-3 sm:grid-cols-2"><a v-for="item in items.filter((publication) => publication.youtube_url)" :key="item.id" :href="item.youtube_url" target="_blank" rel="noopener noreferrer" class="rounded-xl border border-white/10 bg-white/5 p-4 hover:bg-white/10"><div class="text-sm font-semibold">{{ item.title }}</div><div class="mt-2 text-xs text-red-200">Watch free on YouTube ↗</div></a></div></section>
       <section id="plans" class="mt-12 rounded-2xl border border-emerald-100 bg-[#e3f1e9] p-5 sm:p-7">
         <div class="flex items-end justify-between"><div><div class="text-xs font-semibold uppercase tracking-widest text-amber-700">Local planning</div><h2 class="mt-1 text-2xl font-bold text-slate-900">Development plans</h2></div><span class="text-sm text-slate-500">Public records</span></div>
@@ -58,12 +59,13 @@
 </template>
 <script setup>
 import {onMounted,ref} from 'vue'; import publicApi from '../api/publicClient'
-const items=ref([]),plans=ref([]),issues=ref([]),q=ref(''),loading=ref(false),showRegister=ref(false),authMode=ref('login')
+const items=ref([]),plans=ref([]),issues=ref([]),fundraisers=ref([]),q=ref(''),loading=ref(false),showRegister=ref(false),authMode=ref('login')
 const form=ref({name:'',email:'',phone:'',password:'',password_confirmation:''}),support=ref({name:'',email:'',subject:'',message:''}),supportMessage=ref('')
 function openAuth(mode){authMode.value=mode;showRegister.value=true}
 async function load(){loading.value=true;try{const {data}=await publicApi.get('/public/publications',{params:{q:q.value}});items.value=data.data||data}catch(e){items.value=[]}finally{loading.value=false}}
 async function loadPublicRecords(){const [plansResponse,issuesResponse]=await Promise.all([publicApi.get('/public/plans'),publicApi.get('/public/issues')]);plans.value=plansResponse.data.data||plansResponse.data;issues.value=issuesResponse.data.data||issuesResponse.data}
+async function loadFundraisers(){try{const {data}=await publicApi.get('/public/fundraisers');fundraisers.value=data.data||data}catch(e){fundraisers.value=[]}}
 async function register(){try{const endpoint=authMode.value === 'login' ? '/public/auth/login' : '/public/auth/register';const payload=authMode.value === 'login' ? {email:form.value.email,password:form.value.password}:form.value;const {data}=await publicApi.post(endpoint,payload);localStorage.setItem('public_token',data.token);showRegister.value=false;alert(authMode.value === 'login' ? 'Signed in.' : 'Account created. You can now purchase reading access.')}catch(e){const errors=e.response?.data?.errors;const detail=errors ? Object.values(errors).flat().join(' ') : e.response?.data?.message;alert(detail||'Authentication failed. Check your email and password, or create a reader account.')}}
 async function sendSupport(){try{await publicApi.post('/public/support',support.value);supportMessage.value='Message sent. Our support team will respond shortly.';support.value={name:'',email:'',subject:'',message:''}}catch(e){supportMessage.value=e.response?.data?.message||'We could not send your message.'}}
-onMounted(()=>{load();loadPublicRecords()})
+onMounted(()=>{load();loadPublicRecords();loadFundraisers()})
 </script>

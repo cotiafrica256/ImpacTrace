@@ -68,7 +68,7 @@ const nav = computed(() => {
 	if (auth.isSuperAdmin) return [
 			{ to: '/app/organizations', label: 'Organizations' }, { to: '/app/projects', label: 'Projects' },
 		{ to: '/app/users', label: 'Users' }, { to: '/app/reports', label: 'Reports' },
-		{ to: '/app/admin/publications', label: 'Publications' }, { to: '/app/finance', label: 'Finance' }, { to: '/app/knowledge', label: 'Knowledge' }, { to: '/app/payments', label: 'Payments' }, { to: '/app/support', label: 'Help inbox' },
+		{ to: '/app/admin/publications', label: 'Publications' }, { to: '/app/admin/fundraising', label: 'Fundraising' }, { to: '/app/finance', label: 'Finance' }, { to: '/app/knowledge', label: 'Knowledge' }, { to: '/app/payments', label: 'Payments' }, { to: '/app/support', label: 'Help inbox' },
 		{ to: '/app/presentations', label: 'Presentations' },
 	]
 	if (auth.role === 'reader_manager') return [{ to: '/app', label: 'Dashboard' }, { to: '/app/payments', label: 'Payments' }, { to: '/app/support', label: 'Help inbox' }]

@@ -5,6 +5,8 @@ const routes = [
   { path: '/', name: 'public-home', component: () => import('../views/PublicHome.vue'), meta: { public: true } },
   { path: '/publications', redirect: '/' },
   { path: '/publications/:slug', name: 'public-publication', component: () => import('../views/PublicPublication.vue'), meta: { public: true } },
+  { path: '/donate', name: 'public-donate-hub', component: () => import('../views/DonateHub.vue'), meta: { public: true } },
+  { path: '/donate/:slug', name: 'public-donate', component: () => import('../views/DonateCampaign.vue'), meta: { public: true } },
   { path: '/reader/register', name: 'reader-register', component: () => import('../views/ReaderRegister.vue'), meta: { public: true } },
   { path: '/login', name: 'login', component: () => import('../views/Login.vue'), meta: { guest: true } },
   {
@@ -20,6 +22,7 @@ const routes = [
       { path: 'attendance', name: 'attendance', component: () => import('../views/Attendance.vue'), meta: { roles: ['super_admin', 'ed', 'meo', 'po', 'fo'] } },
       { path: 'reports', name: 'reports', component: () => import('../views/Reports.vue'), meta: { roles: ['super_admin', 'ed', 'meo', 'po', 'fo'] } },
       { path: 'admin/publications', name: 'publications-admin', component: () => import('../views/PublicationsAdmin.vue'), meta: { roles: ['super_admin','ed','meo'] } },
+      { path: 'admin/fundraising', name: 'fundraising-admin', component: () => import('../views/FundraisingAdmin.vue'), meta: { roles: ['super_admin'] } },
       { path: 'finance', name: 'finance', component: () => import('../views/Finance.vue'), meta: { roles: ['super_admin','ed','meo'] } },
       { path: 'knowledge', name: 'knowledge', component: () => import('../views/KnowledgeRecords.vue'), meta: { roles: ['super_admin','ed','meo'] } },
       { path: 'payments', name: 'payments', component: () => import('../views/PaymentReview.vue'), meta: { roles: ['super_admin', 'reader_manager'] } },

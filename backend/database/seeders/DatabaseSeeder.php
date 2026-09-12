@@ -19,6 +19,7 @@ use App\Models\FinanceCategory;
 use App\Models\FinanceImport;
 use App\Models\FinanceTransaction;
 use App\Models\PublicUser;
+use App\Models\FundraisingCampaign;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -149,6 +150,23 @@ class DatabaseSeeder extends Seeder
                 );
             }
             $this->command->info('✓ Demo finance categories and transactions');
+
+            FundraisingCampaign::updateOrCreate(
+                ['slug' => 'mecpa-rural-women-agweng-2026'],
+                [
+                    'organization_id' => $organization->id,
+                    'title' => 'Support Rural Women in Agweng, Lira District',
+                    'summary' => 'Help MECPA Uganda celebrate and uplift rural women in Agweng Sub-county on the International Day of Rural Women.',
+                    'message' => "Every woman deserves to be seen, valued, and celebrated.\n\nAs MECPA, this year we are coming together to recognize and celebrate our rural women in Agweng Sub-county, Lira district, on the International Day of Rural Women.\n\nWe humbly call upon you to support this event cause. Whether it is UGX 2,000, UGX 5,000, UGX 10,000 or more, every contribution counts.\n\nTogether, let us give our rural women a reason to smile. Please support us. Every little contribution makes a difference.",
+                    'photo_url' => 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=1200&q=85',
+                    'target_amount_ugx' => 5000000,
+                    'show_progress' => true,
+                    'status' => 'published',
+                    'created_by' => $superAdmin->id,
+                    'published_at' => '2026-09-12 09:00:00',
+                ]
+            );
+            $this->command->info('✓ MECPA rural women fundraising campaign');
 
             // Load and create form schema
             $schemaPath = __DIR__.'/mecpa_form_schema.json';

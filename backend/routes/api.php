@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\KnowledgeController;
 use App\Http\Controllers\Api\PresentationController;
 use App\Http\Controllers\Api\PublicationCommentController;
 use App\Http\Controllers\Api\SupportController;
+use App\Http\Controllers\Api\FundraisingController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -90,6 +91,11 @@ Route::post('/public/auth/register', [PublicAuthController::class, 'register']);
 Route::post('/public/auth/login', [PublicAuthController::class, 'login']);
 Route::post('/public/support', [SupportController::class, 'store']);
 Route::post('/payments/webhook', [PaymentController::class, 'webhook']);
+Route::get('/public/fundraisers', [FundraisingController::class, 'publicIndex']);
+Route::get('/public/fundraisers/{slug}', [FundraisingController::class, 'publicShow']);
+Route::post('/public/fundraisers/{slug}/donate', [FundraisingController::class, 'initiateDonation']);
+Route::post('/public/fundraising-donations/{donation}/reference', [FundraisingController::class, 'submitReference']);
+Route::post('/fundraising/webhook', [FundraisingController::class, 'webhook']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/public/auth/logout', [PublicAuthController::class, 'logout']);
@@ -105,6 +111,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/finance/categories', [FinanceController::class, 'storeCategory'])->middleware('role:super_admin,ed,meo');
     Route::delete('/finance/categories/{category}', [FinanceController::class, 'destroyCategory'])->middleware('role:super_admin,ed,meo');
     Route::get('/finance/export', [FinanceController::class, 'export']);
+    Route::get('/finance/fundraising', [FundraisingController::class, 'financeSummary']);
     Route::get('/support', [SupportController::class, 'index'])->middleware('role:super_admin,customer_service');
     Route::put('/support/{supportRequest}', [SupportController::class, 'update'])->middleware('role:super_admin,customer_service');
 
@@ -139,5 +146,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/admin/payments/{payment}/verify', [PaymentController::class, 'verify']);
         Route::get('/admin/payments/access-report', [PaymentController::class, 'accessReport']);
         Route::put('/admin/comments/{comment}', [PublicationCommentController::class, 'moderate']);
+        Route::get('/admin/fundraisers', [FundraisingController::class, 'adminIndex']);
+        Route::get('/admin/fundraising-donations/pending', [FundraisingController::class, 'adminDonations']);
+        Route::post('/admin/fundraisers/photo', [FundraisingController::class, 'uploadPhoto']);
+        Route::post('/admin/fundraisers', [FundraisingController::class, 'store']);
+        Route::post('/admin/fundraisers/{campaign}/publish', [FundraisingController::class, 'publish']);
+        Route::post('/admin/fundraising-donations/{donation}/verify', [FundraisingController::class, 'verifyDonation']);
     });
 });
