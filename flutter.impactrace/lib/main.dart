@@ -135,7 +135,28 @@ class StaffSubmissions extends StatelessWidget { const StaffSubmissions({super.k
 class StaffMore extends StatelessWidget { const StaffMore({super.key}); @override Widget build(BuildContext context) => _StaffPage(title: 'Workspace', subtitle: 'Tools available for your role.', children: [const _TaskTile(title: 'Reports', detail: 'Generated programme reports', icon: Icons.bar_chart_rounded), const _TaskTile(title: 'Finance', detail: 'Accountability and transactions', icon: Icons.payments_outlined), const _TaskTile(title: 'Help and support', detail: 'Contact the support inbox', icon: Icons.support_agent), _ActionButton(label: 'Sign out', icon: Icons.logout, onPressed: () async { await ApiClient.instance.clearSession(); if (context.mounted) Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const WelcomeScreen()), (_) => false); })]); }
 class _StaffPage extends StatelessWidget { final String title, subtitle; final List<Widget> children; const _StaffPage({required this.title, required this.subtitle, required this.children}); @override Widget build(BuildContext context) => SafeArea(child: ListView(padding: const EdgeInsets.fromLTRB(20, 26, 20, 30), children: [Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(title, style: const TextStyle(fontSize: 29, fontWeight: FontWeight.w800, color: _brandInk)), Text(subtitle, style: const TextStyle(color: Colors.black54))]), const CircleAvatar(backgroundColor: _brandGold, child: Icon(Icons.person, color: _brandInk))]), const SizedBox(height: 28), ...children])); }
 class _Metric extends StatelessWidget { final String label, value; final IconData icon; const _Metric({required this.label, required this.value, required this.icon}); @override Widget build(BuildContext context) => Container(padding: const EdgeInsets.all(16), decoration: BoxDecoration(color: _brandInk, borderRadius: BorderRadius.circular(16)), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Icon(icon, color: _brandGold), const SizedBox(height: 18), Text(value, style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w800, color: Colors.white)), Text(label, style: const TextStyle(color: Colors.white70))])); }
-class _TaskTile extends StatelessWidget { final String title, detail; final IconData icon; const _TaskTile({required this.title, required this.detail, required this.icon}); @override Widget build(BuildContext context) => Card(elevation: 0, margin: const EdgeInsets.only(bottom: 10), child: ListTile(contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6), leading: CircleAvatar(backgroundColor: _brandTeal.withOpacity(.12), child: Icon(icon, color: _brandTeal)), title: Text(title, style: const TextStyle(fontWeight: FontWeight.w700)), subtitle: Text(detail), trailing: const Icon(Icons.chevron_right))); } }
+class _TaskTile extends StatelessWidget {
+  final String title, detail;
+  final IconData icon;
+
+  const _TaskTile({required this.title, required this.detail, required this.icon});
+
+  @override
+  Widget build(BuildContext context) => Card(
+    elevation: 0,
+    margin: const EdgeInsets.only(bottom: 10),
+    child: ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      leading: CircleAvatar(
+        backgroundColor: _brandTeal.withOpacity(.12),
+        child: Icon(icon, color: _brandTeal),
+      ),
+      title: Text(title, style: const TextStyle(fontWeight: FontWeight.w700)),
+      subtitle: Text(detail),
+      trailing: const Icon(Icons.chevron_right),
+    ),
+  );
+}
 class _ProjectTile extends StatelessWidget { final String name, meta; final double progress; const _ProjectTile({required this.name, required this.meta, required this.progress}); @override Widget build(BuildContext context) => Card(elevation: 0, margin: const EdgeInsets.only(bottom: 12), child: Padding(padding: const EdgeInsets.all(16), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(name, style: const TextStyle(fontWeight: FontWeight.w800, color: _brandInk)), const SizedBox(height: 5), Text(meta, style: const TextStyle(color: Colors.black54)), const SizedBox(height: 16), LinearProgressIndicator(value: progress, color: _brandTeal, minHeight: 8, borderRadius: BorderRadius.circular(8)), const SizedBox(height: 6), Text('${(progress * 100).round()}% progress', style: const TextStyle(color: Colors.black54))]))); }
 
 class FieldSubmissionScreen extends StatefulWidget { const FieldSubmissionScreen({super.key}); @override State<FieldSubmissionScreen> createState() => _FieldSubmissionScreenState(); }
