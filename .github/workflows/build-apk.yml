@@ -23,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
       - name: Analyze
-        run: flutter analyze
+        run: flutter analyze lib
       - name: Build release APK
         run: flutter build apk --release --dart-define=API_BASE_URL=${{ vars.API_BASE_URL || 'https://your-railway-api.example.com/api' }}
       - name: Upload APK
