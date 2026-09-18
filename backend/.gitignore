@@ -13,6 +13,7 @@
 /storage/framework/views/*
 
 /bootstrap/cache/*
+/database/database.sqlite
 
 .phpunit.result.cache
 
