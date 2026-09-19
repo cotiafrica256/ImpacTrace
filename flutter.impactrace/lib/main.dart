@@ -13,7 +13,7 @@ void main() => runApp(const ImpacTraceApp());
 class ApiClient {
   ApiClient._();
   static final instance = ApiClient._();
-  final String baseUrl = const String.fromEnvironment('API_BASE_URL', defaultValue: 'http://10.0.2.2:8000/api');
+  final String baseUrl = const String.fromEnvironment('API_BASE_URL', defaultValue: 'https://impactrace.site/api');
   String? token;
   bool reader = false;
 
